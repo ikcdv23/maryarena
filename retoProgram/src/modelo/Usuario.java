@@ -2,6 +2,7 @@ package modelo;
 
 public class Usuario {
 
+
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -51,6 +52,4 @@ public class Usuario {
 	public void setCliente(rolUsuario rol) {
 		this.rol = rol;
 	}
-
-	
 }
