@@ -8,11 +8,6 @@ public class GestionDatos {
 	
 	private static Scanner sc =new Scanner(System.in);
 	
-	public static void pedirDato(String dato) {
-		dato = sc.nextLine();
-		return.dato;
-	}
-	
 	public static Usuario pedirDatosUsuario() {
 		
 		System.out.println("Introduce el DNI de Usuario");
@@ -32,7 +27,7 @@ public class GestionDatos {
 		
 		Usuario usuario=new Usuario();
 		return usuario;
-		
-
 	}
+	
+
 }

@@ -3,6 +3,7 @@ package view;
 import java.util.Scanner;
 
 import modelo.Usuario;
+import registros.registrar;
 import repositorios.RepositorioUsuario;
 import utilidades.GestionDatos;
 
@@ -24,15 +25,18 @@ public class Menu {
         // Mostrar menú de inicio
         System.out.println("Bienvenido al sistema de reservas");
         System.out.println("1. Registrarse");
-        System.out.println("2. Salir");
+        System.out.println("2. Registrarse");
+        System.out.println("3. Salir");
 
-        int opcion = sc.nextInt();
-        sc.nextLine();  // Limpiar el buffer
+        int opcion = GestionDatos.
 
         switch (opcion) {
             case 1:
-                registrarUsuario(sc);
+                registrarUsuario();
                 break;
+            case 2:
+                System.out.println("¡Hasta luego!");
+                return;
             case 2:
                 System.out.println("¡Hasta luego!");
                 return;
