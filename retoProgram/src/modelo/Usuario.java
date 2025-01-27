@@ -13,7 +13,7 @@ public class Usuario {
 		super();
 	}
 	
-	public Usuario(String dni, String nombre, String apellido, String contraseña, rolUsuario cliente) {
+	public Usuario(String dni, String nombre, String apellido, String contraseña, rolUsuario rol) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
@@ -48,7 +48,7 @@ public class Usuario {
 	public rolUsuario getCliente() {
 		return rol;
 	}
-	public void setCliente(rolUsuario cliente) {
+	public void setCliente(rolUsuario rol) {
 		this.rol = rol;
 	}
 

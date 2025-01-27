@@ -3,13 +3,9 @@ package repositorios;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import modelo.Usuario;
-
 public class ConectorBD {
 	
 private static Connection conexion;
-
-	//Usuario usuario = new Usuario();
     
     public static void conectar(){
 
