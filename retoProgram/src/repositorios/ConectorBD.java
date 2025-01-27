@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 
 public class ConectorBD {
 	
-private static Connection conexion;
+public static Connection conexion;
     
     public static void conectar(){
 

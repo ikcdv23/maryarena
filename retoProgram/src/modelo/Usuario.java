@@ -7,14 +7,14 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	private String contraseña;
-	private rolUsuario rol;
+	private String rol;
 	
 	
 	public Usuario() {
 		super();
 	}
 	
-	public Usuario(String dni, String nombre, String apellido, String contraseña, rolUsuario rol) {
+	public Usuario(String dni, String nombre, String apellido, String contraseña, String rol) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
@@ -48,10 +48,10 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-	public rolUsuario getCliente() {
+	public String getRol() {
 		return rol;
 	}
-	public void setCliente(rolUsuario rol) {
+	public void setRol(String rol) {
 		this.rol = rol;
 	}
 }

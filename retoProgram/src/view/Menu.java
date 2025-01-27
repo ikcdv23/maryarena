@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+
 import modelo.Usuario;
 import registros.registrar;
 import repositorios.RepositorioUsuario;
@@ -13,31 +14,27 @@ public class Menu {
     private String dniRegistrado;
     private String contrasenaRegistrada;
 
-    // Constructor
-    public Menu() {
-        this.dniRegistrado = "";
-        this.contrasenaRegistrada = "";
-    }
-
     public void mostrarMenu() {
     
 
         // Mostrar menú de inicio
         System.out.println("Bienvenido al sistema de reservas");
         System.out.println("1. Registrarse");
-        System.out.println("2. Registrarse");
+        System.out.println("2. Iniciar sesion");
         System.out.println("3. Salir");
 
-        int opcion = GestionDatos.
+        int opcion = GestionDatos.inicio();
 
         switch (opcion) {
             case 1:
-                registrarUsuario();
+            	System.out.println("Resgristrase: ");
+            	registrar.registrarUsuario();
+                
                 break;
             case 2:
-                System.out.println("¡Hasta luego!");
+                System.out.println("Iniciar sesión");
                 return;
-            case 2:
+            case 3:
                 System.out.println("¡Hasta luego!");
                 return;
             default:
@@ -45,23 +42,7 @@ public class Menu {
                 mostrarMenu();
         }
     }
-    public void registrarUsuario() {
-    	Usuario usuario=GestionDatos.pedirDatosUsuario();
-    	RepositorioUsuario.insertarUsuario(usuario);
-    }
 
-    private void registrarUsuario(Scanner sc) {
-        // Pedir DNI y contraseña
-        System.out.println("Ingrese su DNI:");
-        dniRegistrado = sc.nextLine();
-        System.out.println("Ingrese su contraseña:");
-        contrasenaRegistrada = sc.nextLine();
-
-        System.out.println("¡Registro exitoso!");
-
-        // Mostrar el siguiente menú
-        mostrarMenuOpciones(sc);
-    }
 
     private void mostrarMenuOpciones(Scanner sc) {
         boolean autenticado = false;
@@ -110,9 +91,6 @@ public class Menu {
         }
     }
 
-    public static void main(String[] args) {
-        Menu menu = new Menu();
-        menu.mostrarMenu();
-    }
+
 }
 
