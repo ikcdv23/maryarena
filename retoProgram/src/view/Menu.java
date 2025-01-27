@@ -2,6 +2,10 @@ package view;
 
 import java.util.Scanner;
 
+import modelo.Usuario;
+import repositorios.RepositorioUsuario;
+import utilidades.GestionDatos;
+
 public class Menu {
 
     // Simulamos los datos de registro
@@ -15,7 +19,7 @@ public class Menu {
     }
 
     public void mostrarMenu() {
-        Scanner sc = new Scanner(System.in);
+    
 
         // Mostrar menú de inicio
         System.out.println("Bienvenido al sistema de reservas");
@@ -36,6 +40,10 @@ public class Menu {
                 System.out.println("Opción no válida. Intente de nuevo.");
                 mostrarMenu();
         }
+    }
+    public void registrarUsuario() {
+    	Usuario usuario=GestionDatos.pedirDatosUsuario();
+    	RepositorioUsuario.insertarUsuario(usuario);
     }
 
     private void registrarUsuario(Scanner sc) {
