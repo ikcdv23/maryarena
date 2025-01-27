@@ -6,7 +6,7 @@ public class Usuario {
 	private String nombre;
 	private String apellido;
 	private String contraseña;
-	private rolUsuario cliente;
+	private rolUsuario rol;
 	
 	
 	public Usuario() {
@@ -19,7 +19,7 @@ public class Usuario {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.contraseña = contraseña;
-		this.cliente = cliente;
+		this.rol = rol;
 	}
 	public String getDni() {
 		return dni;
@@ -46,10 +46,10 @@ public class Usuario {
 		this.contraseña = contraseña;
 	}
 	public rolUsuario getCliente() {
-		return cliente;
+		return rol;
 	}
 	public void setCliente(rolUsuario cliente) {
-		this.cliente = cliente;
+		this.rol = rol;
 	}
 
 	
