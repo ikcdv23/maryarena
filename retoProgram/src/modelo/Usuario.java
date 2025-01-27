@@ -19,7 +19,11 @@ public class Usuario {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.contraseña = contraseña;
+<<<<<<< HEAD
 		this.rol = cliente;
+=======
+		this.rol = rol;
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 	}
 	public String getDni() {
 		return dni;
@@ -49,7 +53,11 @@ public class Usuario {
 		return rol;
 	}
 	public void setCliente(rolUsuario cliente) {
+<<<<<<< HEAD
 		this.rol = cliente;
+=======
+		this.rol = rol;
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 	}
 
 	
