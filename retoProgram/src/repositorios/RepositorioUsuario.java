@@ -9,7 +9,6 @@ import modelo.Usuario;
 public class RepositorioUsuario {
 	public static void insertarUsuario(Usuario usuario) {
 
-
 	    String query = "INSERT INTO Usuario (dni, nombre, apellido, contraseña, rol) VALUES (?, ?, ?, ?, ?)";
 	    String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE DNI = ?";
 
@@ -37,31 +36,27 @@ public class RepositorioUsuario {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+
 	}
 
 
-    public static boolean comprobarUsuario(int dni, String contraseña) throws SQLException {
+
+	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
         String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
 
         try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
-            checkStmt.setInt(1, dni);
-            checkStmt.setString(2, contraseña);
+            checkStmt.setString(1, dni);  // DNI como String
+            checkStmt.setString(2, contraseña);  // Contraseña como String
 
             ResultSet resultSet = checkStmt.executeQuery();
             resultSet.next();
             int count = resultSet.getInt(1);
 
-            if (count > 0) {
-                System.out.println("Sesión iniciada");
-                return true;
-            } else {
-                System.out.println("Usuario o contraseña incorrectos.");
-                return false; 
-            }
-
+            return true;  // Si el usuario existe, devuelve true
         } catch (SQLException e) {
             e.printStackTrace();
-            throw e; 
+            throw e;  // Lanza la excepción si ocurre un error en la consulta
         }
     }
+
 }
