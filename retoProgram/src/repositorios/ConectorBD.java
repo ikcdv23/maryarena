@@ -6,7 +6,8 @@ import java.sql.DriverManager;
 
 public class ConectorBD {
 	
-private static Connection conexion;
+	//preguntar sobre si es necesario el public
+static Connection conexion;
     
     public static void conectar(){
 

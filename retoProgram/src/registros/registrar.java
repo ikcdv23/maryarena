@@ -6,7 +6,7 @@ import utilidades.GestionDatos;
 
 public class registrar {
     
-	public void registrarUsuario() {
+	public static void registrarUsuario() {
 		Usuario usuario = GestionDatos.pedirDatosUsuario();
 		RepositorioUsuario.insertarUsuario(usuario);
 	}
