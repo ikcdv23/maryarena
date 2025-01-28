@@ -3,8 +3,6 @@ package utilidades;
 import java.util.Scanner;
 
 import modelo.Usuario;
-import modelo.rolUsuario;
-import view.Menu;
 
 public class GestionDatos {
 
@@ -12,7 +10,7 @@ public class GestionDatos {
 
     public static Usuario pedirDatosUsuario() {
 
-        sc.nextLine(); // Limpiar el buffer
+        sc.nextLine(); 
         System.out.println("Introduce el DNI de Usuario");
         String dni = sc.nextLine();
         
@@ -25,17 +23,16 @@ public class GestionDatos {
         System.out.println("Introduce la contraseña de Usuario");
         String contraseña = sc.nextLine();
         
-        System.out.println("Introduce el rol del Usuario");
+        System.out.println("Introduce el rol del Usuario (Cliente / Administrador)"); //de momento es string en vez de enum, porque tenemos problemas con el enum
         String rol = sc.nextLine();
         
-        // Crear el objeto Usuario con los datos proporcionados
         Usuario usuario = new Usuario(dni, nombre, apellido, contraseña, rol); 
 
         return usuario;
     }
 
 
-    public static int inicio() {
+    public static int guardarOpcion() {
         int eleccion = sc.nextInt();
         return eleccion;
     }

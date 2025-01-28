@@ -1,7 +1,6 @@
 package view;
 
 import repositorios.ConectorBD;
-import view.Menu;
 
 public class Main {
 

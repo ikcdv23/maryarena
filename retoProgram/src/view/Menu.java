@@ -10,25 +10,25 @@ public class Menu {
     
     	 int opcion;
          do {
-             // Mostrar menú de inicio
+             // Mostrar menu principal
              System.out.println("Bienvenido al sistema de reservas");
              System.out.println("1. Registrarse");
              System.out.println("2. Iniciar sesión");
              System.out.println("3. Salir");
 
-             opcion = GestionDatos.inicio(); // Obtener la opción del usuario
+             opcion = GestionDatos.guardarOpcion(); // Guardar opción del usuario
 
              switch (opcion) {
                  case 1:
                      System.out.println("Registrarse:");
-                     registrar.registrarUsuario(); // Llamamos al registro
+                     registrar.registrarUsuario(); // Llamamor al registro
                      break;
                  case 2:
                      System.out.println("Iniciar sesión:");
-                     iniciarSesion.iniciarSesion(); // Llamamos al inicio de sesión
+                     iniciarSesion.iniciarSesion(); // Llamar al inicio de sesion
                      break;
                  case 3:
-                     System.out.println("Programa finalizado"); // Mensaje de despedida
+                     System.out.println("Programa finalizado"); 
                      break;
                  default:
                      System.out.println("Opción no válida. Intente de nuevo.");

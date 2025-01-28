@@ -45,14 +45,14 @@ public class RepositorioUsuario {
         String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
 
         try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
-            checkStmt.setString(1, dni);  // DNI como String
-            checkStmt.setString(2, contraseña);  // Contraseña como String
+            checkStmt.setString(1, dni); 
+            checkStmt.setString(2, contraseña); 
 
             ResultSet resultSet = checkStmt.executeQuery();
             resultSet.next();
             int count = resultSet.getInt(1);
 
-            return true;  // Si el usuario existe, devuelve true
+            return count > 1;  // Si el usuario existe, devuelve true
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;  // Lanza la excepción si ocurre un error en la consulta
