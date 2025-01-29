@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import modelo.Usuario;
+import view.Menu;
 
 public class RepositorioUsuario {
 
@@ -51,6 +52,7 @@ public class RepositorioUsuario {
 			boolean autenticado = comprobarUsuario(dni, contraseña);
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
+				Menu.mostrarMenu2();
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
