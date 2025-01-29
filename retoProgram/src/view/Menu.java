@@ -2,6 +2,7 @@ package view;
 
 import registros.iniciarSesion;
 import registros.registrar;
+import repositorios.RepositorioUsuario;
 import utilidades.GestionDatos;
 
 public class Menu {
@@ -21,11 +22,11 @@ public class Menu {
              switch (opcion) {
                  case 1:
                      System.out.println("Registrarse:");
-                     registrar.registrarUsuario(); // Llamamor al registro
+                     RepositorioUsuario.registrarUsuario(); // Llamamor al registro
                      break;
                  case 2:
                      System.out.println("Iniciar sesión:");
-                     iniciarSesion.iniciarSesion(); // Llamar al inicio de sesion
+                     RepositorioUsuario.iniciarSesion(); // Llamar al inicio de sesion
                      break;
                  case 3:
                      System.out.println("Programa finalizado"); 
