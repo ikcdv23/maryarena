@@ -26,17 +26,19 @@ public class RepositorioUsuario {
 			e.printStackTrace();
 		}
 
-		try (PreparedStatement preparedStatement = ConectorBD.conexion.prepareStatement(query)) {
-			preparedStatement.setString(1, usuario.getDni());
-			preparedStatement.setString(2, usuario.getNombre());
-			preparedStatement.setString(3, usuario.getApellido());
-			preparedStatement.setString(4, usuario.getContraseña());
-			preparedStatement.setString(5, usuario.getRol());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+        try (PreparedStatement preparedStatement = ConectorBD.conexion.prepareStatement(query)) {
+            preparedStatement.setString(1, usuario.getDni());
+            preparedStatement.setString(2, usuario.getNombre());
+            preparedStatement.setString(3, usuario.getApellido());
+            preparedStatement.setString(4, usuario.getContraseña());
+            preparedStatement.setString(5, usuario.getRol());
+            preparedStatement.executeUpdate();
+
+            System.out.println("El usuario ha sido creado correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public static void iniciarSesion() {
 		Scanner sc = new Scanner(System.in);
