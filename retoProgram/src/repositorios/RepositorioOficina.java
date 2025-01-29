@@ -19,13 +19,13 @@ public class RepositorioOficina {
              PreparedStatement stmt = conexion.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) {
+            while (rs.next()) {//Añadir los valores de cada atributo en MySQL a las variables de eclipse.
                 int idOficina = rs.getInt("idOficina");
                 String nombre = rs.getString("nombre");
                 String localizacion = rs.getString("localizacion");
                 int telefono = rs.getInt("telefono");
 
-                // Crear objeto Oficina y añadirlo a la lista
+                // Crear objeto Oficina y añadirlo al array.
                 oficinas.add(new Oficina(idOficina, nombre, localizacion, telefono));
             }
         } catch (SQLException e) {
