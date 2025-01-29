@@ -27,19 +27,19 @@ public class RepositorioUsuario {
 			e.printStackTrace();
 		}
 
-		try (PreparedStatement preparedStatement = ConectorBD.conexion.prepareStatement(query)) {
-			preparedStatement.setString(1, usuario.getDni());
-			preparedStatement.setString(2, usuario.getNombre());
-			preparedStatement.setString(3, usuario.getApellido());
-			preparedStatement.setString(4, usuario.getContraseña());
-			preparedStatement.setString(5, usuario.getRol());
-			preparedStatement.executeUpdate();
+        try (PreparedStatement preparedStatement = ConectorBD.conexion.prepareStatement(query)) {
+            preparedStatement.setString(1, usuario.getDni());
+            preparedStatement.setString(2, usuario.getNombre());
+            preparedStatement.setString(3, usuario.getApellido());
+            preparedStatement.setString(4, usuario.getContraseña());
+            preparedStatement.setString(5, usuario.getRol());
+            preparedStatement.executeUpdate();
 
-			System.out.println("El usuario ha sido creado correctamente.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+            System.out.println("El usuario ha sido creado correctamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public static void iniciarSesion() {
 		Scanner sc = new Scanner(System.in);
@@ -52,14 +52,7 @@ public class RepositorioUsuario {
 			boolean autenticado = comprobarUsuario(dni, contraseña);
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
-				Usuario usuario = new Usuario();
-				usuario.setDni(dni);
-				usuario.setContraseña(contraseña);
-				String rol = obtenerRolUsuario(dni);
-				usuario.setRol(rol);
-				if(rol.equals("ADMINISTRADOR")) {
-					Menu.menuReservas();
-				}
+				Menu.mostrarMenu2();
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
@@ -72,10 +65,10 @@ public class RepositorioUsuario {
 		}
 	}
 
-	public static Usuario registrarUsuario() {
-		Usuario usuario = pedirDatosUsuario();
-		insertarUsuario(usuario);
-		return usuario;
+		public static Usuario registrarUsuario() {
+			Usuario usuario = pedirDatosUsuario();
+			insertarUsuario(usuario);
+			return usuario;
 	}
 
 	private static Usuario pedirDatosUsuario() {
@@ -96,14 +89,14 @@ public class RepositorioUsuario {
 		String apellido = sc.nextLine();
 
 		System.out.println("Introduce la contraseña de Usuario:");
-		String contrase\u00f1a = sc.nextLine();
+		String contraseña = sc.nextLine();
 
 		String rol;
 		do {
 			System.out.println("Introduce el rol del Usuario (Administrador / Cliente):");
 			rol = sc.nextLine().toLowerCase();
 			if (!rol.equals("administrador") && !rol.equals("cliente")) {
-				System.out.println("Rol no apellido. Debe ser 'Administrador' o 'Cliente'.");
+				System.out.println("Rol no válido. Debe ser 'Administrador' o 'Cliente'.");
 			}
 		} while (!rol.equals("administrador") && !rol.equals("cliente"));
 
@@ -127,17 +120,5 @@ public class RepositorioUsuario {
 			e.printStackTrace();
 			throw e;
 		}
-	}
-
-	public static String obtenerRolUsuario(String dni) throws SQLException {
-		String query = "SELECT rol FROM Usuario WHERE dni = ?";
-		try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query)) {
-			stmt.setString(1, dni);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				return rs.getString("rol");
-			}
-		}
-		return null;
 	}
 }
