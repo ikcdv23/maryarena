@@ -1,8 +1,6 @@
 package view;
+import repositorios.RepositorioUsuario;
 
-import registros.iniciarSesion;
-import registros.registrar;
-import utilidades.GestionDatos;
 
 public class Menu {
 
@@ -16,16 +14,16 @@ public class Menu {
              System.out.println("2. Iniciar sesión");
              System.out.println("3. Salir");
 
-             opcion = GestionDatos.guardarOpcion(); // Guardar opción del usuario
+             opcion = RepositorioUsuario.guardarOpcion();
 
              switch (opcion) {
                  case 1:
                      System.out.println("Registrarse:");
-                     registrar.registrarUsuario(); // Llamamor al registro
+                     RepositorioUsuario.registrarUsuario();
                      break;
                  case 2:
                      System.out.println("Iniciar sesión:");
-                     iniciarSesion.iniciarSesion(); // Llamar al inicio de sesion
+                     RepositorioUsuario.iniciarSesion(); // Llamar al inicio de sesion
                      break;
                  case 3:
                      System.out.println("Programa finalizado"); 
