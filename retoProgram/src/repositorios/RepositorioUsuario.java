@@ -33,6 +33,8 @@ public class RepositorioUsuario {
             preparedStatement.setString(4, usuario.getContraseña());
             preparedStatement.setString(5, usuario.getRol());
             preparedStatement.executeUpdate();
+
+            System.out.println("El usuario ha sido creado correctamente.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
