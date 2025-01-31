@@ -1,5 +1,7 @@
 package repositorios;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,5 +53,4 @@ public class RepositorioArticulo {
             e.printStackTrace();
         }
     }
-
 }

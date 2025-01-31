@@ -9,13 +9,13 @@ import view.Menu;
 
 public class RepositorioUsuario {
 
-	// Método para registrar usuario
+//Método para registrar usuario
 	public static void registrarUsuario() {
 		Usuario usuario = pedirDatosUsuario();
 		insertarUsuario(usuario);
 	}
 
-	// Método para pedir datos al al usuario
+//Método para pedir datos al al usuario
 	private static Usuario pedirDatosUsuario() {
 		Scanner sc = new Scanner(System.in);
 		String dni;
@@ -48,7 +48,7 @@ public class RepositorioUsuario {
 		return new Usuario(dni, nombre, apellido, contraseña, rol);
 	}
 
-	// Método para insertar el usuario en la base de datos.
+//Método para insertar el usuario en la base de datos.
 	public static void insertarUsuario(Usuario usuario) {
 		String query = "INSERT INTO Usuario (dni, nombre, apellido, contraseña, rol) VALUES (?, ?, ?, ?, ?)";
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE DNI = ?";
@@ -81,7 +81,7 @@ public class RepositorioUsuario {
 		}
 	}
 
-	// Método para iniciar sesion
+//Método para iniciar sesion
 	public static void iniciarSesion() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Ingrese su DNI:");
@@ -94,6 +94,7 @@ public class RepositorioUsuario {
 																		// contraseña coinciden en la base de datos.
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
+				Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
@@ -106,7 +107,7 @@ public class RepositorioUsuario {
 		}
 	}
 
-	// Método para comprobar Usuario por DNI y contraseña
+//Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
 
@@ -126,7 +127,7 @@ public class RepositorioUsuario {
 		}
 	}
 
-	// Método para guardar opción.
+//Método para guardar opción.
 	public static int guardarOpcion() {
 		Scanner sc = new Scanner(System.in);
 		return sc.nextInt();

@@ -23,7 +23,7 @@ public class Menu {
 			System.out.println("1. Registrarse");
 			System.out.println("2. Iniciar sesión");
 			System.out.println("3. Salir");
-
+			
 			opcion = RepositorioUsuario.guardarOpcion();
 
 			switch (opcion) {

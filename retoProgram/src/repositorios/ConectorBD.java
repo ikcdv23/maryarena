@@ -5,13 +5,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConectorBD {
-	
+    
 public static Connection conexion;
     
     public static void conectar(){
 
         try{
-        	
+            
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver cargado");        
             try{
