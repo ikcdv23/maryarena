@@ -94,7 +94,6 @@ public class RepositorioUsuario {
 																		// contraseña coinciden en la base de datos.
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
-				Menu.mostrarMenu2(); // Si el usuario existe, llama al segundo menú.
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
@@ -110,15 +109,20 @@ public class RepositorioUsuario {
 	// Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
+
+		// Usamos la conexión global sin cerrar al final
 		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
 			checkStmt.setString(1, dni);
 			checkStmt.setString(2, contraseña);
+
 			ResultSet resultSet = checkStmt.executeQuery();
 			resultSet.next();
+
+			// Si el resultado es mayor que 0, el usuario existe
 			return resultSet.getInt(1) > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw e;
+			throw e; // Lanza la excepción en caso de error
 		}
 	}
 
