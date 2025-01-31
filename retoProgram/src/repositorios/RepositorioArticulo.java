@@ -15,10 +15,6 @@ import modelo.Neopreno;
 import modelo.TablaSurf;
 
 public class RepositorioArticulo {
-    public static void mostrarMenuArticulo() {
-    	obtenerArticulo();
-    	menuArticulo();
-    }
     public static void obtenerArticulo() {
         String query = "SELECT a.idArticulo, a.precio_horas, a.disponibilidad, a.idOficina, " +
                        "ts.tipo AS tipoTablaSurf, ts.tamaño, " +
@@ -29,9 +25,9 @@ public class RepositorioArticulo {
                        "WHERE a.disponibilidad = true";
         
         List<Articulo> articulosDisponibles = new ArrayList<>();
-        
-        try (Connection conexion = ConectorBD.conexion;
-             PreparedStatement stmt = conexion.prepareStatement(query);
+
+        // Usamos la conexión global
+        try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -57,36 +53,4 @@ public class RepositorioArticulo {
             e.printStackTrace();
         }
     }
-        // Mostrar los artículos disponibles
-        public static void menuArticulo() {
-        List<Articulo> articulosDisponibles = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
-        int opcion;
-        do {
-            System.out.println("Artículos disponibles para reservar:");
-            for (int i = 0; i < articulosDisponibles.size(); i++) {
-                Articulo articulo = articulosDisponibles.get(i);
-                if (articulo instanceof TablaSurf) {
-                    TablaSurf tabla = (TablaSurf) articulo;
-                    System.out.println((i + 1) + ". Tabla Surf - idArticulo: " +tabla.getIdArticulo()+ " Disponibilidad: "+ tabla.isDisponibilidad()+ "idOficina: "+ tabla.getIdOficina()+ " Tipo: " + tabla.getTipo() + "Tamaño: " + tabla.getTamaño() + ", Precio: " + tabla.getPrecio_horas() + "€/hora");
-                } else if (articulo instanceof Neopreno) {
-                    Neopreno neopreno = (Neopreno) articulo;
-                    System.out.println((i + 1) + ". Neopreno - idArticulo: "+neopreno.getIdArticulo()+  " Disponibilidad: "+ neopreno.isDisponibilidad()+ "idOficina: "+ neopreno.getIdOficina()+"Grosor: " + neopreno.getGrosor() + ", Talla: " + neopreno.getTalla() + ", Precio: " + neopreno.getPrecio_horas() + "€/hora");
-                }
-            }
-            System.out.println((articulosDisponibles.size() + 1) + ". Finalizar");
-
-            opcion = sc.nextInt();
-            if (opcion >= 1 && opcion <= articulosDisponibles.size()) {
-                Articulo articuloSeleccionado = articulosDisponibles.get(opcion - 1);
-                System.out.println("Has seleccionado el artículo: " + articuloSeleccionado.getIdArticulo());
-            } else if (opcion == articulosDisponibles.size() + 1) {
-                System.out.println("Finalizando...");
-            } else {
-                System.out.println("Opción no válida.");
-            }
-
-        } while (opcion != articulosDisponibles.size() + 1);
-    
-}
 }
