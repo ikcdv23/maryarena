@@ -4,16 +4,21 @@ import java.util.List;
 import java.util.Scanner;
 
 import modelo.Oficina;
+import repositorios.ConectorBD;
 import repositorios.RepositorioArticulo;
 import repositorios.RepositorioOficina;
 import repositorios.RepositorioUsuario;
 
 public class Menu {
 
+	private static List<Oficina> articulosDisponibles;
+
 	public static void mostrarMenu() {
 
 		int opcion;
 		do {
+			//Llamamos a la funcion conectar que esta en ConectorBD
+			ConectorBD.conectar();
 			// Mostrar menu principal
 			System.out.println("Bienvenido al sistema de reservas");
 			System.out.println("1. Registrarse");
@@ -42,6 +47,8 @@ public class Menu {
 	}
 
 	public static void mostrarMenu2() {
+		//Llamamos a la funcion conectar que esta en ConectorBD
+		ConectorBD.conectar();
 		Scanner sc = new Scanner(System.in);
 		List<Oficina> oficinas = RepositorioOficina.obtenerOficinas(); // Obtener las oficinas de la base de datos
 
@@ -66,7 +73,9 @@ public class Menu {
 			if (opcion >= 1 && opcion <= oficinas.size()) {
 				Oficina oficinaSeleccionada = oficinas.get(opcion - 1);
 				System.out.println(oficinaSeleccionada.getNombre());
-				RepositorioArticulo.mostrarMenuArticulo();
+				articulosDisponibles = null;
+				System.out.println("Artículos disponibles: " + articulosDisponibles.size());
+
 			} else if (opcion == oficinas.size() + 1) {
 				System.out.println("Programa finalizado");
 			} else if (opcion == oficinas.size() + 2) {

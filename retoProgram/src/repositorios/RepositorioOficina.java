@@ -12,7 +12,7 @@ import modelo.Oficina;
 public class RepositorioOficina {
 	 // Método para obtener todas las oficinas desde la base de datos
     public static List<Oficina> obtenerOficinas() {
-        List<Oficina> oficinas = new ArrayList<>();
+    	List<Oficina> oficinas = new ArrayList<>();
         String query = "SELECT * FROM Oficina";
 
         try (Connection conexion = ConectorBD.conexion;
