@@ -97,7 +97,7 @@ public class RepositorioUsuario {
 			boolean autenticado = comprobarUsuario(dni, contraseña); //Llama al método para comprobar si el DNI y contraseña coinciden en la base de datos.
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
-				Menu.mostrarMenu2();						//Si el usuario existe, llama al segundo menú.
+				Menu.mostrarMenuOficinas();						//Si el usuario existe, llama al segundo menú.
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
