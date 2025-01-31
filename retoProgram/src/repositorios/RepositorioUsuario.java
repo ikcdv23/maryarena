@@ -113,17 +113,22 @@ public class RepositorioUsuario {
 	
 	//Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
-		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
-		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
-			checkStmt.setString(1, dni);
-			checkStmt.setString(2, contraseña);
-			ResultSet resultSet = checkStmt.executeQuery();
-			resultSet.next();
-			return resultSet.getInt(1) > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
+	    String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
+	    
+	    // Usamos la conexión global sin cerrar al final
+	    try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
+	        checkStmt.setString(1, dni);
+	        checkStmt.setString(2, contraseña);
+
+	        ResultSet resultSet = checkStmt.executeQuery();
+	        resultSet.next();
+	        
+	        // Si el resultado es mayor que 0, el usuario existe
+	        return resultSet.getInt(1) > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e; // Lanza la excepción en caso de error
+	    }
 	}
 
 	

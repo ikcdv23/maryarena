@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import modelo.Oficina;
+import repositorios.RepositorioArticulo;
 import repositorios.RepositorioOficina;
 import repositorios.RepositorioUsuario;
 
@@ -24,7 +25,7 @@ public class Menu {
 			switch (opcion) {
 			case 1:
 				System.out.println("Registrarse:");
-				RepositorioUsuario.registrarUsuario(); // Llamamor al registro
+				RepositorioUsuario.registrarUsuario(); // Llamamos al registro
 				break;
 			case 2:
 				System.out.println("Iniciar sesión:");
@@ -65,15 +66,15 @@ public class Menu {
 			if (opcion >= 1 && opcion <= oficinas.size()) {
 				Oficina oficinaSeleccionada = oficinas.get(opcion - 1);
 				System.out.println(oficinaSeleccionada.getNombre());
-				// Aqui pondremos el siguiente menu
+				RepositorioArticulo.mostrarMenuArticulo();
 			} else if (opcion == oficinas.size() + 1) {
 				System.out.println("Programa finalizado");
 			} else if (opcion == oficinas.size() + 2) {
 				mostrarMenu();
 			} else {
-				System.out.println("Opción no válida. Inténtalo de nuevo.");
+				System.out.println("Opción incorrecta. Inténtalo de nuevo.");
 			}
 
-		} while (opcion != oficinas.size() + 1); // Termina cuando se selecciona la opción "Finalizar"
+		} while (opcion != oficinas.size() + 1); // Opcón para finalizar
 	}
 }
