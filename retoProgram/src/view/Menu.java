@@ -76,4 +76,15 @@ public class Menu {
 
 		} while (opcion != oficinas.size() + 1); // Termina cuando se selecciona la opción "Finalizar"
 	}
+
+	public static void menuReserva() {
+		System.out.println("¡Bienbenido a Mar & Arena!");
+		System.out.println("1. Ver lista de articulos");
+		System.out.println("2. Crear reserva");
+		System.out.println("3. Eliminar reserva");
+		System.out.println("4. Página anterior");
+		System.out.println("5. Cerrar sesion");
+
+	}
+
 }
