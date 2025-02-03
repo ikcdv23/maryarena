@@ -17,7 +17,6 @@ public class RepositorioUsuario {
 
 //Método para pedir datos al al usuario
 	private static Usuario pedirDatosUsuario() {
-		Scanner sc = new Scanner(System.in);
 		String dni;
 		do {
 			System.out.println("Introduce el DNI de Usuario (9 caracteres):");
@@ -82,8 +81,8 @@ public class RepositorioUsuario {
 	}
 
 //Método para iniciar sesion
-	public static void iniciarSesion() {
-		Scanner sc = new Scanner(System.in);
+	public static void iniciarSesion(Scanner sc) {
+		
 		System.out.println("Ingrese su DNI:");
 		String dni = sc.nextLine();
 		System.out.println("Ingrese su contraseña:");
@@ -94,7 +93,7 @@ public class RepositorioUsuario {
 																		// contraseña coinciden en la base de datos.
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
-				Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
+				Menu.mostrarMenuOficinas(sc); // Si el usuario existe, llama al segundo menú.
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}

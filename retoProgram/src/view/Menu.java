@@ -14,7 +14,7 @@ import repositorios.RepositorioUsuario;
 
 public class Menu {
 
-	public static void mostrarMenu() {
+	public static void mostrarMenu(Scanner sc) {
 
 		int opcion;
 		do {
@@ -33,7 +33,7 @@ public class Menu {
 				break;
 			case 2:
 				System.out.println("Iniciar sesión:");
-				RepositorioUsuario.iniciarSesion(); // Llamar al inicio de sesion
+				RepositorioUsuario.iniciarSesion(sc); // Llamar al inicio de sesion
 				break;
 			case 3:
 				System.out.println("Programa finalizado");
@@ -45,8 +45,8 @@ public class Menu {
 		} while (opcion != 3); // Bucle hasta que pulsemos el botón de salir.
 	}
 
-	public static void mostrarMenuOficinas() {
-		Scanner sc = new Scanner(System.in);
+	public static void mostrarMenuOficinas(Scanner sc) {
+	
 		List<Oficina> oficinas = RepositorioOficina.obtenerOficinas(); // Obtener las oficinas de la base de datos y
 																		// guardarlas en el arrayList.
 
@@ -69,9 +69,9 @@ public class Menu {
 			if (opcion >= 1 && opcion <= oficinas.size()) {
 				Oficina oficinaSeleccionada = oficinas.get(opcion - 1);
 				System.out.println(oficinaSeleccionada.getNombre());
-				mostrarMenuArticulo();
+				mostrarMenuArticulo(opcion);
 			} else if (opcion == oficinas.size() + 1) {
-				mostrarMenu();
+				mostrarMenu(sc);
 			} else if (opcion == oficinas.size() + 2) {
 				System.out.println("Programa finalizado");
 			} else {
@@ -81,13 +81,15 @@ public class Menu {
 		} while (opcion != oficinas.size() + 1); // Opción para finalizar
 	}
 
-	public static void mostrarMenuArticulo() {
-		RepositorioArticulo.obtenerArticulo();
+	public static void mostrarMenuArticulo(int idOficina) {
+		
+		ArrayList<Articulo> listaArticulos= RepositorioArticulo.obtenerArticulo(idOficina);
 		menuArticulo();
 	}
 
 	// Mostrar los articulos disponibles
 	public static void menuArticulo() {
+
 		List<Articulo> articulosDisponibles = new ArrayList<>();
 		Scanner sc = new Scanner(System.in);
 		int opcion;
