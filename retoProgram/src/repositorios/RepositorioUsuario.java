@@ -18,6 +18,7 @@ public class RepositorioUsuario {
 //Método para pedir datos al al usuario
 	private static Usuario pedirDatosUsuario() {
 		String dni;
+		Scanner sc = new Scanner(System.in);
 		do {
 			System.out.println("Introduce el DNI de Usuario (9 caracteres):");
 			dni = sc.nextLine();
