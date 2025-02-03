@@ -13,7 +13,7 @@ public class Main {
 
 		// Crear un objeto llamado menu para llamar sus funcniones
 	    Menu.mostrarMenu(sc);
-	    
+	    repositorios.RepositorioArticulo.obtenerArticulo(1);
 		
 	}
 
