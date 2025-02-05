@@ -4,9 +4,9 @@ public class Neopreno extends Articulo{
     private String grosor;
     private String color;   
     private String talla;
-	public Neopreno(int idArticulo, double precio_horas, boolean disponibilidad, int idOficina, String grosor,
+	public Neopreno(int idArticulo, double precio_horas, int idOficina, String grosor,
 			String color, String talla) {
-		super(idArticulo, precio_horas, disponibilidad, idOficina);
+		super(idArticulo, precio_horas, idOficina);
 		this.grosor = grosor;
 		this.color = color;
 		this.talla = talla;

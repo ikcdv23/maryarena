@@ -4,14 +4,12 @@ public class Articulo {
 
 	private int idArticulo;
 	private double precio_horas;
-	private boolean disponibilidad;
 	private int idOficina;
 	
-	public Articulo(int idArticulo, double precio_horas, boolean disponibilidad, int idOficina) {
+	public Articulo(int idArticulo, double precio_horas, int idOficina) {
 		super();
 		this.idArticulo = idArticulo;
 		this.precio_horas = precio_horas;
-		this.disponibilidad = disponibilidad;
 		this.idOficina = idOficina;
 	}
 
@@ -33,14 +31,6 @@ public class Articulo {
 
 	public void setPrecio_horas(double precio_horas) {
 		this.precio_horas = precio_horas;
-	}
-
-	public boolean isDisponibilidad() {
-		return disponibilidad;
-	}
-
-	public void setDisponibilidad(boolean disponibilidad) {
-		this.disponibilidad = disponibilidad;
 	}
 
 	public int getIdOficina() {

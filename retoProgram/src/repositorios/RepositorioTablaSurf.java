@@ -1,22 +1,17 @@
 package repositorios;
 
-
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import modelo.Articulo;
-import modelo.Neopreno;
 import modelo.TablaSurf;
 
-public class RepositorioArticulo {
-	public static List<Articulo> obtenerArticulosPorOficina(int idOficina) {
-	    List<Articulo> articulos = new ArrayList<>();
+public class RepositorioTablaSurf {
+	public static List<TablaSurf> obtenerTablaSurfPorOficina(int idOficina) {
+	    List<TablaSurf> TablaSurf = new ArrayList<>();
 	    String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " +
 	                   "ts.tipo AS tipoTablaSurf, ts.tamaño, " +
 	                   "np.grosor, np.color, np.talla " +
@@ -38,20 +33,16 @@ public class RepositorioArticulo {
 	                // Si es un artículo de tipo TablaSurf
 	                String tipo = rs.getString("tipoTablaSurf");
 	                int tamaño = rs.getInt("tamaño");
-	                articulos.add(new TablaSurf(idArticulo, precioHoras, idOficina1, tipo, tamaño));
-	            } else if (rs.getString("grosor") != null) {
-	                // Si es un artículo de tipo Neopreno
-	                String grosor = rs.getString("grosor");
-	                String color = rs.getString("color");
-	                String talla = rs.getString("talla");
-	                articulos.add(new Neopreno(idArticulo, precioHoras, idOficina1, grosor, color, talla));
+	                TablaSurf tablaSurf = new TablaSurf(idArticulo, precioHoras, idOficina1, tipo, tamaño);
+	                TablaSurf.add(tablaSurf);  // Agregar la tabla a la lista
 	            }
 	        }
-	    } catch (SQLException e) {
+
+	    } 
+	    catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 
-	    return articulos;
+	    return TablaSurf;
 	}
-
 }

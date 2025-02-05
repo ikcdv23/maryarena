@@ -5,8 +5,8 @@ public class TablaSurf extends Articulo {
     private int tamaño;    
 
     
-    public TablaSurf(int idArticulo, double precioHoras, boolean disponibilidad, int idOficina, String tipo, int tamaño) {
-        super(idArticulo, precioHoras, disponibilidad, idOficina);  
+    public TablaSurf(int idArticulo, double precioHoras, int idOficina, String tipo, int tamaño) {
+        super(idArticulo, precioHoras, idOficina);  
         this.tipo = tipo;
         this.tamaño = tamaño;
     }

@@ -21,7 +21,7 @@ public class Usuario {
         this.contraseña = contraseña;
         this.rol = rol;
     }
-    //Preguntar si al haber hecho ya una clase de gestion de datos, es necesario añadir los setters
+    
     
     public String getDni() {
         return dni;

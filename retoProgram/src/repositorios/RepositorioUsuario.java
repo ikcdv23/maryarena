@@ -90,8 +90,8 @@ public class RepositorioUsuario {
 		String contraseña = sc.nextLine();
 
 		try {
-			boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
-																		// contraseña coinciden en la base de datos.
+			boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y contraseña coinciden en la base de datos.
+																	
 			if (autenticado) {
 				System.out.println("Sesión iniciada.");
 				Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
