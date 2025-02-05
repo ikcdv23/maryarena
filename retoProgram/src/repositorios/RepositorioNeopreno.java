@@ -13,7 +13,8 @@ public class RepositorioNeopreno {
 	public static List<Neopreno> obtenerNeoprenoPorOficina(int idOficina) {
 		List<Neopreno> Neopreno = new ArrayList<>();
 		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "np.grosor, np.color, np.talla "
-				+ "FROM Articulo a " + "JOIN Neopreno np ON a.idArticulo = np.idArticulo " + "WHERE a.idOficina = ?";
+				+ "FROM Articulo a " + "JOIN Neopreno np ON a.idArticulo = np.idArticulo " 
+				+ "WHERE a.idOficina = ?";
 
 		try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query)) {
 			stmt.setInt(1, idOficina);
