@@ -13,9 +13,7 @@ public class RepositorioTablaSurf {
 	public static List<TablaSurf> obtenerTablaSurfPorOficina(int idOficina) {
 		List<TablaSurf> TablaSurf = new ArrayList<>();
 		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "ts.tipo AS tipoTablaSurf, ts.tamaño, "
-				+ "np.grosor, np.color, np.talla " + "FROM Articulo a "
-				+ "LEFT JOIN TablaSurf ts ON a.idArticulo = ts.idArticulo "
-				+ "LEFT JOIN Neopreno np ON a.idArticulo = np.idArticulo " + "WHERE a.idOficina = ?";
+				+ "FROM Articulo a " + "JOIN TablaSurf ts ON a.idArticulo = ts.idArticulo " + "WHERE a.idOficina = ?";
 
 		try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query)) {
 			stmt.setInt(1, idOficina);
@@ -25,17 +23,15 @@ public class RepositorioTablaSurf {
 				int idArticulo = rs.getInt("idArticulo");
 				double precioHoras = rs.getDouble("precio_horas");
 				int idOficina1 = rs.getInt("idOficina");
-
-				if (rs.getString("tipoTablaSurf") != null) {
-					// Si es un artículo de tipo TablaSurf
-					String tipo = rs.getString("tipoTablaSurf");
-					int tamaño = rs.getInt("tamaño");
-					TablaSurf tablaSurf = new TablaSurf(idArticulo, precioHoras, idOficina1, tipo, tamaño);
-					TablaSurf.add(tablaSurf); // Agregar la tabla a la lista
-				}
+				String tipo = rs.getString("tipoTablaSurf");
+				int tamaño = rs.getInt("tamaño");
+				TablaSurf tablaSurf = new TablaSurf(idArticulo, precioHoras, idOficina1, tipo, tamaño);
+				TablaSurf.add(tablaSurf); // Agregar la tabla a la lista
 			}
 
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 
