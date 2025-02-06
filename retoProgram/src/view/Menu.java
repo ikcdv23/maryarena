@@ -2,6 +2,8 @@ package view;
 
 import java.util.List;
 import java.util.Scanner;
+
+import modelo.Articulo;
 import modelo.Neopreno;
 import modelo.Oficina;
 import modelo.TablaSurf;
@@ -152,7 +154,7 @@ public class Menu {
 	            Neopreno neopreno = neoprenosDisponibles.get(i);
 	            System.out.println((i + 1) + ". Neopreno Grosor: " + neopreno.getGrosor() + ", Color: "
 	                    + neopreno.getColor() + ", Talla: " + neopreno.getTalla() + ", Precio: "
-	                    + neopreno.getPrecio_horas() + "€/hora");
+	                    + ((Articulo) neopreno).getPrecio_horas() + "€/hora");
 	        }
 
 	        // Llamar a la función de reserva

@@ -41,6 +41,28 @@ public class RepositorioTablaSurf {
     }
 
 	public static boolean reservarTabla(int idArticulo, String dni, String fecha, String horaInicio, String horaFin) {
+		// Verificar si el artículo ya está reservado en ese horario
+	    String sqlCheck = "SELECT COUNT(*) FROM Reserva " +
+	                      "WHERE idArticulo = ? AND fecha = ? " +
+	                      "AND ((hora_inicio <= ? AND hora_fin >= ?) OR (hora_inicio <= ? AND hora_fin >= ?))";
+
+	    try {
+	        ConectorBD.conectar();
+	        PreparedStatement stmtCheck = ConectorBD.conexion.prepareStatement(sqlCheck);
+	        stmtCheck.setInt(1, idArticulo);
+	        stmtCheck.setString(2, fecha);
+	        stmtCheck.setString(3, horaFin);
+	        stmtCheck.setString(4, horaInicio);
+	        stmtCheck.setString(5, horaInicio);
+	        stmtCheck.setString(6, horaFin);
+
+	        ResultSet rs = stmtCheck.executeQuery();	
+	        rs.next();
+	        int count = rs.getInt(1);
+
+	        if (count > 0) {
+	            System.out.println("El artículo ya está reservado en ese horario.");
+	            return false;
 		String sql = "INSERT INTO Reserva (dni, idArticulo, fecha, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?)";
 
 		try {
