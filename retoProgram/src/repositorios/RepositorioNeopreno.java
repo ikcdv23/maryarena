@@ -1,41 +1,63 @@
 package repositorios;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import modelo.Neopreno;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.Neopreno;
-import modelo.TablaSurf;
-
 public class RepositorioNeopreno {
-	public static List<Neopreno> obtenerNeoprenoPorOficina(int idOficina) {
-		List<Neopreno> Neopreno = new ArrayList<>();
-		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "np.grosor, np.color, np.talla "
-				+ "FROM Articulo a " + "JOIN Neopreno np ON a.idArticulo = np.idArticulo " 
-				+ "WHERE a.idOficina = ?";
 
-		try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query)) {
-			stmt.setInt(1, idOficina);
-			ResultSet rs = stmt.executeQuery();
+    public static List<Neopreno> obtenerNeoprenoPorOficina(int idOficina) {
+        List<Neopreno> neoprenos = new ArrayList<>();
+        String sql = "SELECT a.idArticulo, a.precio_horas, n.grosor, n.color, n.talla " +
+                     "FROM Articulo a " +
+                     "JOIN Neopreno n ON a.idArticulo = n.idArticulo " +
+                     "WHERE a.idOficina = ?";
 
-			while (rs.next()) {
-				int idArticulo = rs.getInt("idArticulo");
-				double precioHoras = rs.getDouble("precio_horas");
-				int idOficina1 = rs.getInt("idOficina");
-				String grosor = rs.getString("grosor");
-				String color = rs.getString("color");
-				String talla = rs.getString("talla");
-				Neopreno.add(new Neopreno(idArticulo, precioHoras, idOficina1, grosor, color, talla));
-			}
+        try {
+            // ConectorBD.conectar(); 
+            PreparedStatement stmt = ConectorBD.conexion.prepareStatement(sql);
+            stmt.setInt(1, idOficina);
+            ResultSet rs = stmt.executeQuery();
 
+            while (rs.next()) {
+                Neopreno neopreno = new Neopreno(
+                	rs.getInt("idArticulo"),
+                	rs.getDouble("precio_horas"),
+                    idOficina,
+                    rs.getString("grosor"),
+                    rs.getString("color"),
+                    rs.getString("talla")
+                );
+                neoprenos.add(neopreno);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return neoprenos;
+    }
+
+    public static boolean reservarNeopreno(int idArticulo, String dni, String fecha, String horaInicio, String horaFin) {
+        String sql = "INSERT INTO Reserva (dni, idArticulo, fecha, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            ConectorBD.conectar();
+            PreparedStatement stmt = ConectorBD.conexion.prepareStatement(sql);
+            stmt.setString(1, dni);
+            stmt.setInt(2, idArticulo);
+            stmt.setString(3, fecha);
+            stmt.setString(4, horaInicio);
+            stmt.setString(5, horaFin);
+
+            int rows = stmt.executeUpdate();
+            stmt.close();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
 		}
-
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return Neopreno;
 	}
 }
