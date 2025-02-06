@@ -1,16 +1,17 @@
 package view;
-
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import modelo.Articulo;
 import modelo.Neopreno;
 import modelo.Oficina;
+import modelo.Reserva;
 import modelo.TablaSurf;
-import repositorios.RepositorioArticulo;
 import repositorios.RepositorioNeopreno;
 import repositorios.RepositorioOficina;
+import repositorios.RepositorioReserva;
 import repositorios.RepositorioTablaSurf;
 import repositorios.RepositorioUsuario;
 
@@ -18,7 +19,7 @@ public class Menu {
 
 	private static int idOficina;
 
-	public static void mostrarMenu() {
+	public static void mostrarMenuPrincipal() {
 
 		int opcion;
 		do {
@@ -41,6 +42,7 @@ public class Menu {
 				break;
 			case 3:
 				System.out.println("Programa finalizado");
+				System.exit(0);
 				break;
 			default:
 				System.out.println("Opción no válida. Intente de nuevo.");
@@ -72,35 +74,12 @@ public class Menu {
 			System.out.println("Has seleccionado la oficina: " + oficinaSeleccionada.getNombre());
 			mostrarArticulos();
 		} else if (opcion == oficinas.size() + 1) {
-			mostrarMenu();
+			mostrarMenuPrincipal();
 		} else if (opcion == oficinas.size() + 2) {
 			System.out.println("Programa finalizado.");
 			System.exit(0);
 		} else {
 			System.out.println("Opción incorrecta. Inténtalo de nuevo.");
-		}
-	}
-
-	// Mostrar los articulos disponibles
-	public static void mostrarArticulosPorOficina(int idOficina) {
-		List<Articulo> articulosDisponibles = RepositorioArticulo.obtenerArticulosPorOficina(idOficina);
-		if (articulosDisponibles.isEmpty()) {
-			System.out.println("No hay artículos disponibles en esta oficina.");
-		} else {
-			System.out.println("Artículos disponibles en esta oficina:");
-			for (int i = 0; i < articulosDisponibles.size(); i++) {
-				Articulo articulo = articulosDisponibles.get(i);
-				if (articulo instanceof TablaSurf) {
-					TablaSurf tabla = (TablaSurf) articulo;
-					System.out.println((i + 1) + ". Tabla Surf Tipo: " + tabla.getTipo() + ", Tamaño: "
-							+ tabla.getTamaño() + ", Precio: " + tabla.getPrecio_horas() + "€/hora");
-				} else if (articulo instanceof Neopreno) {
-					Neopreno neopreno = (Neopreno) articulo;
-					System.out.println((i + 1) + ". Neopreno Grosor: " + neopreno.getGrosor() + ", Color: "
-							+ neopreno.getColor() + ", Talla: " + neopreno.getTalla() + ", Precio: "
-							+ neopreno.getPrecio_horas() + "€/hora");
-				}
-			}
 		}
 	}
 
@@ -113,6 +92,7 @@ public class Menu {
 		switch (opcion) {
 		case 1:
 			mostrarTablasPorOficina(idOficina);
+			
 			break;
 		case 2:
 			mostrarNeoprenosPorOficina(idOficina);
@@ -122,31 +102,115 @@ public class Menu {
 	}
 
 	public static void mostrarTablasPorOficina(int idOficina) {
-		List<TablaSurf> tablaSurfDisponibles = RepositorioTablaSurf.obtenerTablaSurfPorOficina(idOficina);
-		if (tablaSurfDisponibles.isEmpty()) {
-			System.out.println("No hay tablas de surf disponibles en esta oficina.");
-		} else {
-			System.out.println("Tablas de surf disponibles en esta oficina:");
-			for (int i = 0; i < tablaSurfDisponibles.size(); i++) {
-				TablaSurf tabla = tablaSurfDisponibles.get(i);
-				System.out.println((i + 1) + ". Tabla Surf Tipo: " + tabla.getTipo() + ", Tamaño: " + tabla.getTamaño()
-						+ ", Precio: " + tabla.getPrecio_horas() + "€/hora");
-			}
-		}
+	    List<TablaSurf> tablaSurfDisponibles = RepositorioTablaSurf.obtenerTablaSurfPorOficina(idOficina);
+	    if (tablaSurfDisponibles.isEmpty()) {
+	        System.out.println("No hay tablas de surf disponibles en esta oficina.");
+	    } else {
+	        System.out.println("Tablas de surf disponibles en esta oficina:");
+	        for (int i = 0; i < tablaSurfDisponibles.size(); i++) {
+	            TablaSurf tabla = tablaSurfDisponibles.get(i);
+	            System.out.println((i + 1) + ". Tabla Surf Tipo: " + tabla.getTipo() + ", Tamaño: " + tabla.getTamaño()
+	                    + ", Precio: " + tabla.getPrecio_horas() + "€/hora");
+	        }
+
+	        // Solicitar al usuario elegir una tabla de surf
+	        Scanner sc = new Scanner(System.in);
+	        System.out.println("Seleccione la tabla para reservar: ");
+	        int seleccion = sc.nextInt();
+	        TablaSurf tablaSeleccionada = tablaSurfDisponibles.get(seleccion - 1);
+
+	        // Realizar la reserva
+	        String dni = RepositorioUsuario.obtenerDniUsuarioLogueado(); // Obtener el DNI del usuario logueado
+	        realizarReserva(tablaSeleccionada.getIdArticulo(), dni);
+	    }
 	}
 
 	public static void mostrarNeoprenosPorOficina(int idOficina) {
-		List<Neopreno> neoprenosDisponibles = RepositorioNeopreno.obtenerNeoprenoPorOficina(idOficina);
-		if (neoprenosDisponibles.isEmpty()) {
-			System.out.println("No hay neoprenos disponibles en esta oficina.");
-		} else {
-			System.out.println("Neoprenos disponibles en esta oficina:");
-			for (int i = 0; i < neoprenosDisponibles.size(); i++) {
-				Neopreno neopreno = neoprenosDisponibles.get(i);
-				System.out.println((i + 1) + ". Neopreno Grosor: " + neopreno.getGrosor() + ", Color: "
-						+ neopreno.getColor() + ", Talla: " + neopreno.getTalla() + ", Precio: "
-						+ neopreno.getPrecio_horas() + "€/hora");
-			}
-		}
+	    ArrayList<Neopreno> neoprenosDisponibles = RepositorioNeopreno.obtenerNeoprenoPorOficina(idOficina);
+	    if (neoprenosDisponibles.isEmpty()) {
+	        System.out.println("No hay neoprenos disponibles en esta oficina.");
+	    } else {
+	        System.out.println("Neoprenos disponibles en esta oficina:");
+	        for (int i = 0; i < neoprenosDisponibles.size(); i++) {
+	            Neopreno neopreno = neoprenosDisponibles.get(i);
+	            System.out.println((i + 1) + ". Neopreno Grosor: " + neopreno.getGrosor() + ", Color: "
+	                    + neopreno.getColor() + ", Talla: " + neopreno.getTalla() + ", Precio: "
+	                    + neopreno.getPrecio_horas() + "€/hora");
+	        }
+
+	        // Solicitar al usuario elegir un neopreno
+	        Scanner sc = new Scanner(System.in);
+	        System.out.println("Seleccione el neopreno para reservar: ");
+	        int seleccion = sc.nextInt();
+	        Neopreno neoprenoSeleccionado = neoprenosDisponibles.get(seleccion - 1);
+
+	        // Realizar la reserva
+	        String dni = RepositorioUsuario.obtenerDniUsuarioLogueado(); // Obtener el DNI del usuario logueado
+	        realizarReserva(neoprenoSeleccionado.getIdArticulo(), dni);
+	    }
 	}
+	
+	
+	
+	
+	public static Reserva realizarReserva(int idArticulo, String dni) {
+
+
+	    // Solicitar la fecha y las horas de la reserva
+	    Scanner scanner = new Scanner(System.in);
+
+	    System.out.print("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
+	    String fechaSc = scanner.next();
+	    Date fecha = Date.valueOf(fechaSc);
+
+	    System.out.print("Ingrese la hora de inicio de la reserva (HH:MM): ");
+	    String horaInicioSc = scanner.next();
+	    Time horaInicio = Time.valueOf(horaInicioSc + ":00");
+
+	    System.out.print("Ingrese la hora de fin de la reserva (HH:MM): ");
+	    String horaFinSc = scanner.next();
+	    Time horaFin = Time.valueOf(horaFinSc + ":00");
+
+	    // Crear la reserva
+	    Reserva reserva = new Reserva();
+	    reserva.setDni(dni);  // Usar el DNI del usuario que ha iniciado sesión.
+	    reserva.setIdArticulo(idArticulo);
+	    reserva.setFecha(fecha);
+	    reserva.setHora_inicio(horaInicio);
+	    reserva.setHora_fin(horaFin);
+
+	    // Guardar la reserva en la base de datos
+	    boolean guardada = RepositorioReserva.guardarReserva(reserva);
+
+	    if (guardada) {
+	        System.out.println("Reserva guardada con éxito.");
+	        System.out.println("¿Qué desea hacer ahora?");
+	        System.out.println("1. Realizar otra reserva ");
+	        System.out.println("2. Cerrar sesión ");
+	        System.out.println("3. Finalizar programa ");
+	        
+	        int opcion = RepositorioUsuario.guardarOpcion();
+	        
+	        switch (opcion) {
+	        case 1: 
+	        	mostrarArticulos();
+	        	break;
+	        case 2: 
+	        	System.out.println("Sesión cerrada ");
+	        	mostrarMenuPrincipal();
+	        	break;
+	        case 3:
+	        	System.out.println("Programa finalizado ");
+	        	System.exit(0);
+	        	break;
+	        }
+	        
+
+	    } else {
+	        System.out.println("Hubo un problema al guardar la reserva.");
+	    }
+
+	    return reserva;
+	}
+
 }

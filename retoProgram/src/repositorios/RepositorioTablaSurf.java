@@ -10,10 +10,11 @@ import modelo.Articulo;
 import modelo.TablaSurf;
 
 public class RepositorioTablaSurf {
-	public static List<TablaSurf> obtenerTablaSurfPorOficina(int idOficina) {
-		List<TablaSurf> TablaSurf = new ArrayList<>();
-		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "ts.tipo AS tipoTablaSurf, ts.tamaño, "
-				+ "FROM Articulo a " + "JOIN TablaSurf ts ON a.idArticulo = ts.idArticulo " + "WHERE a.idOficina = ?";
+	public static ArrayList<TablaSurf> obtenerTablaSurfPorOficina(int idOficina) {
+		ArrayList<TablaSurf> TablaSurf = new ArrayList<>();
+		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "ts.tipo, ts.tamaño "
+				+ "FROM Articulo a " + "JOIN TablaSurf ts ON a.idArticulo = ts.idArticulo " 
+				+ "WHERE a.idOficina = ?";
 
 		try (PreparedStatement stmt = ConectorBD.conexion.prepareStatement(query)) {
 			stmt.setInt(1, idOficina);
@@ -22,13 +23,13 @@ public class RepositorioTablaSurf {
 			while (rs.next()) {
 				int idArticulo = rs.getInt("idArticulo");
 				double precioHoras = rs.getDouble("precio_horas");
-				int idOficina1 = rs.getInt("idOficina");
-				String tipo = rs.getString("tipoTablaSurf");
+				idOficina = rs.getInt("idOficina");
+				String tipo = rs.getString("tipo");
 				int tamaño = rs.getInt("tamaño");
-				TablaSurf tablaSurf = new TablaSurf(idArticulo, precioHoras, idOficina1, tipo, tamaño);
+				TablaSurf tablaSurf = new TablaSurf(idArticulo, precioHoras, idOficina, tipo, tamaño);
 				TablaSurf.add(tablaSurf); // Agregar la tabla a la lista
 			}
-
+			
 		} catch (
 
 		SQLException e) {

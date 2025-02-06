@@ -13,7 +13,7 @@ public class RepositorioOficina {
 
 	// Método para obtener todas las oficinas desde la base de datos
 	public static ArrayList<Oficina> obtenerOficinas() {
-		List<Oficina> oficinas = new ArrayList<>();
+		ArrayList<Oficina> oficinas = new ArrayList<>();
 		String query = "SELECT * FROM Oficina";
 
 		// Usamos la conexion
@@ -33,6 +33,6 @@ public class RepositorioOficina {
 			e.printStackTrace();
 		}
 
-		return (ArrayList<Oficina>) oficinas;
+		return oficinas;
 	}
 }

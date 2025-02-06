@@ -9,7 +9,7 @@ public class Main {
 		ConectorBD.conectar();
 
 		// Crear un objeto llamado menu para llamar sus funcniones
-		Menu.mostrarMenu();
+		Menu.mostrarMenuPrincipal();
 
 	}
 

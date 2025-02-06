@@ -82,37 +82,47 @@ public class RepositorioUsuario {
 	}
 
 //Método para iniciar sesion
-	public static void iniciarSesion() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Ingrese su DNI:");
-		String dni = sc.nextLine();
-		System.out.println("Ingrese su contraseña:");
-		String contraseña = sc.nextLine();
+	 private static String dniUsuarioLogueado;
+	 
+    public static void iniciarSesion() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese su DNI:");
+        String dni = sc.nextLine();
+        System.out.println("Ingrese su contraseña:");
+        String contraseña = sc.nextLine();
 
-		try {
-			boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
-																		// contraseña coinciden en la base de datos.
+        try {
+            boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
+                                                                     // contraseña coinciden en la base de datos.
 
-			if (autenticado) {
-				System.out.println("Sesión iniciada.");
-				Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
-			} else {
-				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error en la base de datos. Por favor, inténtalo más tarde.");
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Ha ocurrido un error inesperado.");
-			e.printStackTrace();
-		}
-	}
+            if (autenticado) {
+                // Si el usuario se autentica, guardamos el DNI en la variable estática
+                dniUsuarioLogueado = dni;
+                System.out.println("Sesión iniciada.");
+                Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
+            } else {
+                System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en la base de datos. Por favor, inténtalo más tarde.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error inesperado.");
+            e.printStackTrace();
+        }
+    }
+
+    // Método para obtener el DNI del usuario logueado
+    public static String obtenerDniUsuarioLogueado() {
+        return dniUsuarioLogueado;
+    }
+
 
 //Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
 
-		// Usamos la conexión global sin cerrar al final
+		// Nos conectamos
 		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
 			checkStmt.setString(1, dni);
 			checkStmt.setString(2, contraseña);

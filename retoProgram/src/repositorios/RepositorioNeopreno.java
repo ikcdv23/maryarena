@@ -10,8 +10,8 @@ import modelo.Neopreno;
 import modelo.TablaSurf;
 
 public class RepositorioNeopreno {
-	public static List<Neopreno> obtenerNeoprenoPorOficina(int idOficina) {
-		List<Neopreno> Neopreno = new ArrayList<>();
+	public static ArrayList<Neopreno> obtenerNeoprenoPorOficina(int idOficina) {
+		ArrayList<Neopreno> Neopreno = new ArrayList<>();
 		String query = "SELECT a.idArticulo, a.precio_horas, a.idOficina, " + "np.grosor, np.color, np.talla "
 				+ "FROM Articulo a " + "JOIN Neopreno np ON a.idArticulo = np.idArticulo " 
 				+ "WHERE a.idOficina = ?";
@@ -23,11 +23,11 @@ public class RepositorioNeopreno {
 			while (rs.next()) {
 				int idArticulo = rs.getInt("idArticulo");
 				double precioHoras = rs.getDouble("precio_horas");
-				int idOficina1 = rs.getInt("idOficina");
+				idOficina = rs.getInt("idOficina");
 				String grosor = rs.getString("grosor");
 				String color = rs.getString("color");
 				String talla = rs.getString("talla");
-				Neopreno.add(new Neopreno(idArticulo, precioHoras, idOficina1, grosor, color, talla));
+				Neopreno.add(new Neopreno(idArticulo, precioHoras, idOficina, grosor, color, talla));
 			}
 
 		}
