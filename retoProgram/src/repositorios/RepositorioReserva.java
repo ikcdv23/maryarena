@@ -4,6 +4,7 @@ import java.sql.*;
 
 import modelo.Neopreno;
 import modelo.Reserva;
+import view.MenuAdministrador;
 
 public class RepositorioReserva {
 
@@ -98,6 +99,17 @@ public class RepositorioReserva {
 				System.out.println("+-------------+----------------------+");
 
 			}
+
+			int opcion = 0;
+			do {
+				System.out.println("Pulse 1 para volver al menú");
+				opcion = RepositorioUsuario.guardarOpcion();
+				if (opcion == 1) {
+					MenuAdministrador.MostrarMenuAdmin();
+				}else System.out.println("Opcion no permitida");
+				System.out.println("");
+				System.out.println("");
+			} while (opcion != 1);
 
 		} catch (Exception e) {
 			// TODO: handle exception

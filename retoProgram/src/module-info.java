@@ -5,5 +5,6 @@
  * 
  */
 module retoProgram {
-	requires java.sql;
+    requires java.sql;
+    exports view;
 }

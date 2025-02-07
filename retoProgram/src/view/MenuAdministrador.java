@@ -6,6 +6,7 @@ import java.util.Scanner;
 import repositorios.RepositorioNeopreno;
 import repositorios.RepositorioNeopreno.GestionNeopreno;
 import repositorios.RepositorioReserva;
+import repositorios.RepositorioTablaSurf.gestionTablaSurf;
 import repositorios.RepositorioUsuario;
 
 public class MenuAdministrador {
@@ -41,6 +42,7 @@ public class MenuAdministrador {
 
 			    switch (opcion) {
 			        case 1:
+			        	gestionTablaSurf.insertarTablaSurfDesdeConsola();
 			            // Llamar la función para insertar tablas
 			            break;
 			        case 2:
