@@ -1,88 +1,101 @@
-
 package modelo;
 
 import java.sql.Date;
 import java.sql.Time;
 
 public class Reserva {
-	private int idReserva;
-	private String dni;
-	private int idArticulo;
-	private Date fecha;
-	private Time hora_inicio;
-	private Time hora_fin;
-	
-	public Reserva(int idReserva, String dni, int idArticulo, Date fecha, Time hora_inicio, Time hora_fin) {
-		super();
-		this.idReserva = idReserva;
-		this.dni = dni;
-		this.idArticulo = idArticulo;
-		this.fecha = fecha;
-		this.hora_inicio = hora_inicio;
-		this.hora_fin = hora_fin;
-	}
+    private int idReserva;
+    private String dni;
+    private int idArticulo;
+    private Date fecha;
+    private Time hora_inicio;
+    private Time hora_fin;
+    private int horas;
+    private double precio;
+
+    public Reserva(int idArticulo, Date fecha, Time hora_inicio, Time hora_fin, int horas) {
+        this.idArticulo = idArticulo;
+        this.fecha = fecha;
+        this.hora_inicio = hora_inicio;
+        this.hora_fin = hora_fin;
+        this.horas = horas;
+          // Calcular el precio con la duración de la reserva
+    }
+
+
 
 	public Reserva() {
-		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public int getIdReserva() {
-		return idReserva;
-	}
 
-	public void setIdReserva(int idReserva) {
-		this.idReserva = idReserva;
-	}
 
-	public String getDni() {
-		return dni;
-	}
+	// Métodos getter y setter
+    public int getIdReserva() {
+        return idReserva;
+    }
 
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
+    }
 
-	public int getIdArticulo() {
-		return idArticulo;
-	}
+    public String getDni() {
+        return dni;
+    }
 
-	public void setIdArticulo(int idArticulo) {
-		this.idArticulo = idArticulo;
-	}
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
 
-	public Date getFecha() {
-		return fecha;
-	}
+    public int getIdArticulo() {
+        return idArticulo;
+    }
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    public void setIdArticulo(int idArticulo) {
+        this.idArticulo = idArticulo;
+    }
 
-	public Time getHora_inicio() {
-		return hora_inicio;
-	}
+    public Date getFecha() {
+        return fecha;
+    }
 
-	public void setHora_inicio(Time hora_inicio) {
-		this.hora_inicio = hora_inicio;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-	public Time getHora_fin() {
-		return hora_fin;
-	}
+    public Time getHora_inicio() {
+        return hora_inicio;
+    }
 
-	public void setHora_fin(Time hora_fin) {
-		this.hora_fin = hora_fin;
-	}
+    public void setHora_inicio(Time hora_inicio) {
+        this.hora_inicio = hora_inicio;
+    }
 
-	@Override
-	public String toString() {
-		return "Reserva [idReserva=" + idReserva + ", dni=" + dni + ", idArticulo=" + idArticulo + ", fecha=" + fecha
-				+ ", hora_inicio=" + hora_inicio + ", hora_fin=" + hora_fin + "]";
-	}
-	
-	
-	
-	
-	
-	
+    public Time getHora_fin() {
+        return hora_fin;
+    }
+
+    public void setHora_fin(Time hora_fin) {
+        this.hora_fin = hora_fin;
+    }
+
+    public int getHoras() {
+        return horas;
+    }
+
+    public void setHoras(int horas) {
+        this.horas = horas;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Reserva [idReserva=" + idReserva + ", dni=" + dni + ", idArticulo=" + idArticulo + ", fecha=" + fecha
+                + ", hora_inicio=" + hora_inicio + ", hora_fin=" + hora_fin + ", precio=" + precio + "]";
+    }
 }

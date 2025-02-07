@@ -1,37 +1,32 @@
 package modelo;
 
-public class Neopreno {
-    private double grosor;
-    private String color;
-    private String talla;
+public class Neopreno extends Articulo {
+	private String grosor;
+	private String color;
+	private String talla;
 
-    public Neopreno(int idArticulo, double precioHoras, int idOficina1, String grosor2, String color2, String talla2) {
-		super();
-	}
-    
-    
-    
-	public Neopreno() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-	public Neopreno(int id, double grosor, String color, String talla, double precio_horas, boolean disponible) {
-		super();
-
+	public Neopreno(int idArticulo, double precio_horas, int idOficina, String grosor, String color, String talla) {
+		super(idArticulo, precio_horas, idOficina);
 		this.grosor = grosor;
 		this.color = color;
 		this.talla = talla;
 	}
 
+	public Neopreno() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	public double getGrosor() {
+	public Neopreno(int idArticulo, double precio_horas, int idOficina) {
+		super(idArticulo, precio_horas, idOficina);
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getGrosor() {
 		return grosor;
 	}
 
-	public void setGrosor(double grosor) {
+	public void setGrosor(String grosor) {
 		this.grosor = grosor;
 	}
 
@@ -51,13 +46,9 @@ public class Neopreno {
 		this.talla = talla;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "Neopreno [grosor=" + grosor + ", color=" + color + ", talla=" + talla + ", "
-				+ super.toString() + "]";
-	}   
-    
-    
+		return "Neopreno [grosor=" + grosor + ", color=" + color + ", talla=" + talla + ", " + super.toString() + "]";
+	}
+
 }

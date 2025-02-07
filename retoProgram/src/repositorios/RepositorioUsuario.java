@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import modelo.Usuario;
 import view.Menu;
+import view.MenuAdministrador;
 
 public class RepositorioUsuario {
 
@@ -82,6 +83,8 @@ public class RepositorioUsuario {
 	}
 
 //Método para iniciar sesion
+	private static String dniUsuarioLogueado;
+
 	public static void iniciarSesion() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Ingrese su DNI:");
@@ -94,9 +97,18 @@ public class RepositorioUsuario {
 																		// contraseña coinciden en la base de datos.
 
 			if (autenticado) {
+				// Si el usuario se autentica, guardamos el DNI en la variable estática
+				dniUsuarioLogueado = dni;
 				System.out.println("Sesión iniciada.");
-				Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
 
+				// llamar al comprobar rol
+				String rol = comprobarRol(dni);
+
+				if (rol == "CLIENTE") {
+					Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
+				} else {
+					MenuAdministrador.MostrarMenuAdmin();
+				}
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
@@ -107,14 +119,18 @@ public class RepositorioUsuario {
 			System.out.println("Ha ocurrido un error inesperado.");
 			e.printStackTrace();
 		}
+	}
 
+	// Método para obtener el DNI del usuario logueado
+	public static String obtenerDniUsuarioLogueado() {
+		return dniUsuarioLogueado;
 	}
 
 //Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
 
-		// Usamos la conexión global sin cerrar al final
+		// Nos conectamos
 		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
 			checkStmt.setString(1, dni);
 			checkStmt.setString(2, contraseña);
@@ -124,6 +140,23 @@ public class RepositorioUsuario {
 
 			// Si el resultado es mayor que 0, el usuario existe
 			return resultSet.getInt(1) > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e; // Lanza la excepción en caso de error
+		}
+	}
+
+	//
+	public static String comprobarRol(String dni) throws SQLException {
+		String query = "SELECT rol FROM Usuario WHERE dni = ?";
+
+		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(query)) {
+			checkStmt.setString(1, dni);
+
+			ResultSet rs = checkStmt.executeQuery();
+			rs.next();
+
+			return rs.getString("rol");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e; // Lanza la excepción en caso de error
