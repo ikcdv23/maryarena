@@ -104,11 +104,12 @@ public class RepositorioUsuario {
 				// llamar al comprobar rol
 				String rol = comprobarRol(dni);
 
-				if (rol == "CLIENTE") {
-					Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
-				} else {
-					MenuAdministrador.MostrarMenuAdmin();
+				if (rol.equalsIgnoreCase("cliente")) {
+				    Menu.mostrarMenuOficinas();
+				} else if(rol.equalsIgnoreCase("administrador")){
+				    MenuAdministrador.MostrarMenuAdmin();
 				}
+
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
 			}
