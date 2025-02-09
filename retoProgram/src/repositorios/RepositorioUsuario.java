@@ -20,13 +20,14 @@ public class RepositorioUsuario {
 	private static Usuario pedirDatosUsuario() {
 		Scanner sc = new Scanner(System.in);
 		String dni;
+		// Validación del DNI: 8 números seguidos de 1 letra
 		do {
-			System.out.println("Introduce el DNI de Usuario (9 caracteres):");
+			System.out.println("Introduce el DNI de Usuario (8 números seguidos de 1 letra):");
 			dni = sc.nextLine();
-			if (dni.length() != 9) {
-				System.out.println("El DNI debe tener exactamente 9 caracteres.");
+			if (!dni.matches("^[0-9]{8}[A-Za-z]$")) {
+				System.out.println("Error: El DNI debe tener 8 números seguidos de 1 letra.");
 			}
-		} while (dni.length() != 9);
+		} while (!dni.matches("^[0-9]{8}[A-Za-z]$"));
 
 		System.out.println("Introduce el nombre de Usuario:");
 		String nombre = sc.nextLine();
@@ -34,10 +35,22 @@ public class RepositorioUsuario {
 		System.out.println("Introduce el apellido de Usuario:");
 		String apellido = sc.nextLine();
 
-		System.out.println("Introduce la contraseña de Usuario:");
-		String contraseña = sc.nextLine();
+		String contraseña;
+		// Validación de la contraseña: 8 caracteres, al menos una letra y al menos 1
+		// número
+		do {
+			System.out.println(
+					"Introduce la contraseña de Usuario (8 caracteres, al menos una letra y al menos 1 número):");
+			contraseña = sc.nextLine();
+			if (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$")) {
+				System.out.println(
+						"Error: La contraseña debe tener 8 caracteres, al menos una letra y al menos 1 número.");
+			}
+		} while (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$"));
 
 		String rol;
+		// Validación del rol: solo se acepta "administrador" o "cliente" (en
+		// minúsculas)
 		do {
 			System.out.println("Introduce el rol del Usuario (Administrador / Cliente):");
 			rol = sc.nextLine().toLowerCase();
@@ -105,9 +118,9 @@ public class RepositorioUsuario {
 				String rol = comprobarRol(dni);
 
 				if (rol.equalsIgnoreCase("cliente")) {
-				    Menu.mostrarMenuOficinas();
-				} else if(rol.equalsIgnoreCase("administrador")){
-				    MenuAdministrador.MostrarMenuAdmin();
+					Menu.mostrarMenuOficinas();
+				} else if (rol.equalsIgnoreCase("administrador")) {
+					MenuAdministrador.MostrarMenuAdmin();
 				}
 			} else {
 				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
