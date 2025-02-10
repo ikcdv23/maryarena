@@ -18,7 +18,7 @@ public class ConectorBD {
         }
 
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/MaryArena", "root", "Ikcdv1");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/MaryArena", "root", "1DAW3_BBDD");
             System.out.println("Conexión establecida correctamente.");
         } catch (SQLException e) {
             System.err.println("Error al establecer la conexión: " + e.getMessage());

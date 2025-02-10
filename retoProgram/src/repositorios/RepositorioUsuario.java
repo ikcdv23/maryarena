@@ -40,13 +40,13 @@ public class RepositorioUsuario {
 		// número
 		do {
 			System.out.println(
-					"Introduce la contraseña de Usuario (8 caracteres, al menos una letra y al menos 1 número):");
+					"Introduce la contraseña de Usuario (Un mínimo de 8 caracteres, al menos una letra y al menos 1 número):");
 			contraseña = sc.nextLine();
-			if (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$")) {
+			if (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
 				System.out.println(
-						"Error: La contraseña debe tener 8 caracteres, al menos una letra y al menos 1 número.");
+						"Error: La contraseña debe tener un mínimo de 8 caracteres, al menos una letra y al menos 1 número.");
 			}
-		} while (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$"));
+		} while (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"));
 
 		String rol;
 		// Validación del rol: solo se acepta "administrador" o "cliente" (en
