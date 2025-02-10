@@ -39,7 +39,7 @@ public class RepositorioNeopreno {
 	}
 
     public static void insertarNeopreno(Neopreno neopreno) {
-        String query1 = "INSERT INTO articulo (precio_horas, idOficina) VALUES (?, ?)";
+        String query1 = "INSERT INTO articulo ( precio_horas, idOficina) VALUES (?, ?)";
         String query2 = "INSERT INTO neopreno (grosor, color, talla) VALUES (?, ?, ?)";
         String queryCheck = "SELECT COUNT(*) FROM articulo WHERE idArticulo = ?";
 
