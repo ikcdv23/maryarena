@@ -30,7 +30,7 @@ public class Menu {
 
 		do {
 			// Mostrar menu principal
-			System.out.println("-----Bienvenido al sistema de reservas-----");
+			System.out.println("-----Bienvenido a Mar&Arena-----");
 			System.out.println("1. Registrarse");
 			System.out.println("2. Iniciar sesión");
 			System.out.println("3. Salir");
