@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import modelo.Usuario;
 import view.Menu;
+import view.MenuAdministrador;
 
 public class RepositorioUsuario {
 
@@ -19,13 +20,14 @@ public class RepositorioUsuario {
 	private static Usuario pedirDatosUsuario() {
 		Scanner sc = new Scanner(System.in);
 		String dni;
+		// Validación del DNI: 8 números seguidos de 1 letra
 		do {
-			System.out.println("Introduce el DNI de Usuario (9 caracteres):");
+			System.out.println("Introduce el DNI de Usuario (8 números seguidos de 1 letra):");
 			dni = sc.nextLine();
-			if (dni.length() != 9) {
-				System.out.println("El DNI debe tener exactamente 9 caracteres.");
+			if (!dni.matches("^[0-9]{8}[A-Za-z]$")) {
+				System.out.println("Error: El DNI debe tener 8 números seguidos de 1 letra.");
 			}
-		} while (dni.length() != 9);
+		} while (!dni.matches("^[0-9]{8}[A-Za-z]$"));
 
 		System.out.println("Introduce el nombre de Usuario:");
 		String nombre = sc.nextLine();
@@ -33,10 +35,22 @@ public class RepositorioUsuario {
 		System.out.println("Introduce el apellido de Usuario:");
 		String apellido = sc.nextLine();
 
-		System.out.println("Introduce la contraseña de Usuario:");
-		String contraseña = sc.nextLine();
+		String contraseña;
+		// Validación de la contraseña: 8 caracteres, al menos una letra y al menos 1
+		// número
+		do {
+			System.out.println(
+					"Introduce la contraseña de Usuario (8 caracteres, al menos una letra y al menos 1 número):");
+			contraseña = sc.nextLine();
+			if (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$")) {
+				System.out.println(
+						"Error: La contraseña debe tener 8 caracteres, al menos una letra y al menos 1 número.");
+			}
+		} while (!contraseña.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$"));
 
 		String rol;
+		// Validación del rol: solo se acepta "administrador" o "cliente" (en
+		// minúsculas)
 		do {
 			System.out.println("Introduce el rol del Usuario (Administrador / Cliente):");
 			rol = sc.nextLine().toLowerCase();
@@ -82,47 +96,53 @@ public class RepositorioUsuario {
 	}
 
 //Método para iniciar sesion
-	 private static String dniUsuarioLogueado;
-	 
-    public static void iniciarSesion() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese su DNI:");
-        String dni = sc.nextLine();
-        System.out.println("Ingrese su contraseña:");
-        String contraseña = sc.nextLine();
+	private static String dniUsuarioLogueado;
 
-        try {
-        	
-            boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
-                                                                     // contraseña coinciden en la base de datos.
+	public static void iniciarSesion() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Ingrese su DNI:");
+		String dni = sc.nextLine();
+		System.out.println("Ingrese su contraseña:");
+		String contraseña = sc.nextLine();
 
-            if (autenticado) {
-                // Si el usuario se autentica, guardamos el DNI en la variable estática
-                dniUsuarioLogueado = dni;
-                System.out.println("Sesión iniciada.");
-                Menu.mostrarMenuOficinas(); // Si el usuario existe, llama al segundo menú.
-            } else {
-                System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error en la base de datos. Por favor, inténtalo más tarde.");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un error inesperado.");
-            e.printStackTrace();
-        }
-    }
+		try {
+			boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
+																		// contraseña coinciden en la base de datos.
 
-    // Método para obtener el DNI del usuario logueado
-    public static String obtenerDniUsuarioLogueado() {
-        return dniUsuarioLogueado;
-    }
+			if (autenticado) {
+				// Si el usuario se autentica, guardamos el DNI en la variable estática
+				dniUsuarioLogueado = dni;
+				System.out.println("Sesión iniciada.");
 
+				// llamar al comprobar rol
+				String rol = comprobarRol(dni);
+
+				if (rol.equalsIgnoreCase("cliente")) {
+					Menu.mostrarMenuOficinas();
+				} else if (rol.equalsIgnoreCase("administrador")) {
+					MenuAdministrador.MostrarMenuAdmin();
+				}
+			} else {
+				System.out.println("DNI o contraseña incorrectos. Inténtalo de nuevo.");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error en la base de datos. Por favor, inténtalo más tarde.");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Ha ocurrido un error inesperado.");
+			e.printStackTrace();
+		}
+	}
+
+	// Método para obtener el DNI del usuario logueado
+	public static String obtenerDniUsuarioLogueado() {
+		return dniUsuarioLogueado;
+	}
 
 //Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
-		
+
 		// Nos conectamos
 		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
 			checkStmt.setString(1, dni);
@@ -133,6 +153,23 @@ public class RepositorioUsuario {
 
 			// Si el resultado es mayor que 0, el usuario existe
 			return resultSet.getInt(1) > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e; // Lanza la excepción en caso de error
+		}
+	}
+
+	//
+	public static String comprobarRol(String dni) throws SQLException {
+		String query = "SELECT rol FROM Usuario WHERE dni = ?";
+
+		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(query)) {
+			checkStmt.setString(1, dni);
+
+			ResultSet rs = checkStmt.executeQuery();
+			rs.next();
+
+			return rs.getString("rol");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e; // Lanza la excepción en caso de error
