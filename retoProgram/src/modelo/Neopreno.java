@@ -11,6 +11,8 @@ public class Neopreno extends Articulo{
 		this.color = color;
 		this.talla = talla;
 	}
+	
+	
 	public String getGrosor() {
 		return grosor;
 	}

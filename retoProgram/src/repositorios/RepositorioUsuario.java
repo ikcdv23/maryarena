@@ -92,6 +92,7 @@ public class RepositorioUsuario {
         String contraseña = sc.nextLine();
 
         try {
+        	
             boolean autenticado = comprobarUsuario(dni, contraseña); // Llama al método para comprobar si el DNI y
                                                                      // contraseña coinciden en la base de datos.
 
@@ -121,7 +122,7 @@ public class RepositorioUsuario {
 //Método para comprobar Usuario por DNI y contraseña
 	public static boolean comprobarUsuario(String dni, String contraseña) throws SQLException {
 		String queryCheck = "SELECT COUNT(*) FROM Usuario WHERE dni = ? AND contraseña = ?";
-
+		
 		// Nos conectamos
 		try (PreparedStatement checkStmt = ConectorBD.conexion.prepareStatement(queryCheck)) {
 			checkStmt.setString(1, dni);

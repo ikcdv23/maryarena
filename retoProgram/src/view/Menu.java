@@ -2,6 +2,7 @@ package view;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import modelo.Articulo;
@@ -9,6 +10,7 @@ import modelo.Neopreno;
 import modelo.Oficina;
 import modelo.Reserva;
 import modelo.TablaSurf;
+import repositorios.ConectorBD;
 import repositorios.RepositorioNeopreno;
 import repositorios.RepositorioOficina;
 import repositorios.RepositorioReserva;
@@ -20,36 +22,51 @@ public class Menu {
 	private static int idOficina;
 
 	public static void mostrarMenuPrincipal() {
+        int opcion = 0;
+        Scanner scanner = new Scanner(System.in);
+        ConectorBD.conectar();
+        do {
+            // Mostrar menu principal
+            System.out.println("Bienvenido al sistema de reservas");
+            System.out.println("1. Registrarse");
+            System.out.println("2. Iniciar sesión");
+            System.out.println("3. Salir");
 
-		int opcion;
-		do {
-// Mostrar menu principal
-			System.out.println("Bienvenido al sistema de reservas");
-			System.out.println("1. Registrarse");
-			System.out.println("2. Iniciar sesión");
-			System.out.println("3. Salir");
+            try {
+                
+                System.out.print("Seleccione una opción: ");
+                opcion = scanner.nextInt();
 
-			opcion = RepositorioUsuario.guardarOpcion();
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Registrarse:");
+                        RepositorioUsuario.registrarUsuario(); // Llamamos al registro
+                        break;
+                    case 2:
+                        System.out.println("Iniciar sesión:");
+                        RepositorioUsuario.iniciarSesion(); // Llamamos al inicio de sesión
+                        break;
+                    case 3:
+                        System.out.println("Programa finalizado");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Opción no válida. Intente de nuevo.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Debe introducir un número.");
+                scanner.nextLine(); // Limpiar el buffer del scanner
+            }
 
-			switch (opcion) {
-			case 1:
-				System.out.println("Registrarse:");
-				RepositorioUsuario.registrarUsuario(); // Llamamos al registro
-				break;
-			case 2:
-				System.out.println("Iniciar sesión:");
-				RepositorioUsuario.iniciarSesion(); // Llamamos al inicio de sesion
-				break;
-			case 3:
-				System.out.println("Programa finalizado");
-				System.exit(0);
-				break;
-			default:
-				System.out.println("Opción no válida. Intente de nuevo.");
-				break;
-			}
-		} while (opcion != 3); // Bucle hasta que pulsemos el botón de salir.
-	}
+        } while (opcion != 3); // Bucle hasta que elija salir.
+        
+    }
+
+    public static void main(String[] args) {
+        mostrarMenuPrincipal(); // Llamamos al método para mostrar el menú
+    }
+
 
 	public static void mostrarMenuOficinas() {
 		Scanner sc = new Scanner(System.in);
@@ -92,7 +109,6 @@ public class Menu {
 		switch (opcion) {
 		case 1:
 			mostrarTablasPorOficina(idOficina);
-			
 			break;
 		case 2:
 			mostrarNeoprenosPorOficina(idOficina);
