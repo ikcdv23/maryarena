@@ -263,6 +263,7 @@ public class Menu {
 
 		if (guardada) {
 			System.out.println("Reserva guardada con éxito.");
+			System.out.println("");
 			System.out.println("¿Qué desea hacer ahora?");
 			System.out.println("1. Realizar otra reserva ");
 			System.out.println("2. Cerrar sesión ");
