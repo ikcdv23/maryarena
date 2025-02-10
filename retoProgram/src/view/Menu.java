@@ -166,140 +166,142 @@ public class Menu {
 	}
 
 	public static Reserva realizarReserva(int idArticulo, String dni) {
-		Scanner scanner = new Scanner(System.in);
+	    Scanner scanner = new Scanner(System.in);
 
-		// Validación del DNI (suponiendo que debe tener 8 dígitos y una letra)
-		if (!dni.matches("\\d{8}[A-Za-z]")) {
-			throw new IllegalArgumentException("Error: DNI inválido. Debe tener 8 números seguidos de una letra.");
-		}
+	    // Validación del DNI (suponiendo que debe tener 8 dígitos y una letra)
+	    if (!dni.matches("\\d{8}[A-Za-z]")) {
+	        throw new IllegalArgumentException("Error: DNI inválido. Debe tener 8 números seguidos de una letra.");
+	    }
 
-		// Obtener DNI del usuario logueado (ejemplo)
-		String dniUsuario = RepositorioUsuario.obtenerDniUsuarioLogueado();
+	    // Obtener DNI del usuario logueado (ejemplo)
+	    String dniUsuario = RepositorioUsuario.obtenerDniUsuarioLogueado();
 
-		List<TablaSurf> tablas = RepositorioTablaSurf.obtenerTablaSurfPorOficina(idOficina);
+	    Date fecha = null;
+	    Time horaInicio = null;
+	    Time horaFin = null;
 
-		Date fecha = null;
-		Time horaInicio = null;
-		Time horaFin = null;
+	    // Validación de fecha
+	    while (fecha == null) {
+	        try {
+	            System.out.print("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
+	            String fechaSc = scanner.next();
 
-		// Lectura de fecha con validación
-		while (fecha == null) {
-			try {
-				System.out.print("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
-				String fechaSc = scanner.next();
-				LocalDate diaActual = LocalDate.now();// Fehca actual
-				LocalDate fechaAlquiler = LocalDate.parse(fechaSc);// Fecha intrdoucida por el usuario
-				// Si la fecha alquiler es posterior a la actual
-				if (diaActual.isBefore(fechaAlquiler) || diaActual.isEqual(fechaAlquiler)) {
-					fecha = Date.valueOf(fechaSc);
+	            LocalDate fechaReserva = LocalDate.parse(fechaSc); // Parsear la fecha
 
-					// Lectura de hora de inicio con validación
-					while (horaInicio == null) {
-						try {
-							System.out.print("Ingrese la hora de inicio (HH:MM): ");
-							String horaInicioSc = scanner.next();
-							LocalDateTime horaActual = LocalDateTime.now();
-							// Definir el formato esperado
-							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	            // Comparar con la fecha actual
+	            if (fechaReserva.isBefore(LocalDate.now())) {
+	                System.out.println("Error: La fecha no puede ser anterior a la fecha actual.");
+	            } else {
+	                fecha = Date.valueOf(fechaReserva);
+	                break;
+	            }
 
-							// Convertir la entrada a LocalTime
-							LocalTime horaAlquiler = LocalTime.parse(horaInicioSc, formatter);
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de fecha inválido. Use YYYY-MM-DD.");
+	        }
+	    }
 
-							// Obtener la fecha actual y combinarla con la hora ingresada
-							LocalDateTime fechaHoraAlquiler = LocalDateTime.now().withHour(horaAlquiler.getHour())
-									.withMinute(horaAlquiler.getMinute()).withSecond(0).withNano(0);
+	    // Validación de hora de inicio
+	    while (horaInicio == null) {
+	        try {
+	            System.out.print("Ingrese la hora de inicio (HH:MM): ");
+	            String horaInicioSc = scanner.next();
 
-							if ( horaActual.isEqual(fechaHoraAlquiler) &&  diaActual.isEqual(fechaAlquiler)   ) {
-								validarFormatoHora(horaInicioSc);
-								horaInicio = Time.valueOf(horaInicioSc + ":00");
-							} else {
-								System.out.println("La hora no puede ser anterior a la hora actual");
-							}
+	            // Validar el formato de la hora
+	            LocalTime horaInicioReserva = LocalTime.parse(horaInicioSc);
+	            LocalTime horaActual = LocalTime.now();
 
-						} catch (IllegalArgumentException e) {
-							System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
-							scanner.nextLine();
-						}
-					}
+	            // Si la fecha es igual a la actual, verificamos la hora
+	            if (LocalDate.now().isEqual(fecha.toLocalDate())) {
+	                if (horaInicioReserva.isBefore(horaActual)) {
+	                    System.out.println("Error: La hora de inicio no puede ser anterior a la hora actual.");
+	                } else {
+	                    horaInicio = Time.valueOf(horaInicioReserva.atDate(LocalDate.now()).toLocalTime());
+	                    break;
+	                }
+	            } else {
+	                // Si la fecha es posterior a la actual, no importa la hora
+	                horaInicio = Time.valueOf(horaInicioReserva.atDate(LocalDate.now()).toLocalTime());
+	                break;
+	            }
 
-				} else {
-					System.out.println("La fecha no puede ser anterior a la fecha actual");
-				}
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
+	        }
+	    }
 
-			} catch (IllegalArgumentException e) {
-				System.out.println("Error: Formato de fecha inválido. Use YYYY-MM-DD.");
-				scanner.nextLine(); // Limpiar buffer
-			}
-		}
+	    // Validación de hora de fin
+	    while (horaFin == null) {
+	        try {
+	            System.out.print("Ingrese la hora de fin (HH:MM): ");
+	            String horaFinSc = scanner.next();
 
-		// Lectura de hora de fin con validación y comprobación de coherencia
-		while (horaFin == null) {
-			try {
-				System.out.print("Ingrese la hora de fin (HH:MM): ");
-				String horaFinSc = scanner.next();
-				validarFormatoHora(horaFinSc);
-				horaFin = Time.valueOf(horaFinSc + ":00");
+	            LocalTime horaFinReserva = LocalTime.parse(horaFinSc);
 
-				if (horaFin.before(horaInicio)) {
-					System.out.println("Error: La hora de fin debe ser posterior a la de inicio.");
-					horaFin = null; // Reiniciar para volver a solicitar entrada
-				}
-			} catch (IllegalArgumentException e) {
-				System.out.println("Error: " + e.getMessage());
-				scanner.nextLine();
-			}
-		}
+	            // Verificar que la hora de fin sea posterior a la hora de inicio
+	            if (horaFinReserva.isBefore(horaInicio.toLocalTime())) {
+	                System.out.println("Error: La hora de fin debe ser posterior a la de inicio.");
+	            } else {
+	                horaFin = Time.valueOf(horaFinReserva.atDate(LocalDate.now()).toLocalTime());
+	                break;
+	            }
 
-		// Crear la reserva
-		Reserva reserva = new Reserva();
-		reserva.setDni(dni);
-		reserva.setIdArticulo(idArticulo);
-		reserva.setFecha(fecha);
-		reserva.setHora_inicio(horaInicio);
-		reserva.setHora_fin(horaFin);
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
+	        }
+	    }
 
-		// Guardar la reserva en la base de datos
-		boolean guardada = RepositorioReserva.guardarReserva(reserva);
+	    // Crear la reserva
+	    Reserva reserva = new Reserva();
+	    reserva.setDni(dni);
+	    reserva.setIdArticulo(idArticulo);
+	    reserva.setFecha(fecha);
+	    reserva.setHora_inicio(horaInicio);
+	    reserva.setHora_fin(horaFin);
 
-		if (guardada) {
-			System.out.println("Reserva guardada con éxito.");
-			System.out.println("");
-			System.out.println("¿Qué desea hacer ahora?");
-			System.out.println("1. Realizar otra reserva ");
-			System.out.println("2. Cerrar sesión ");
-			System.out.println("3. Finalizar programa ");
+	    // Guardar la reserva en la base de datos
+	    boolean guardada = RepositorioReserva.guardarReserva(reserva);
 
-			int opcion = -1;
-			while (opcion < 1 || opcion > 3) {
-				try {
-					System.out.print("Seleccione una opción: ");
-					opcion = Integer.parseInt(scanner.next());
+	    if (guardada) {
+	        System.out.println("Reserva guardada con éxito.");
+	        System.out.println("");
+	        System.out.println("¿Qué desea hacer ahora?");
+	        System.out.println("1. Realizar otra reserva ");
+	        System.out.println("2. Cerrar sesión ");
+	        System.out.println("3. Finalizar programa ");
 
-					switch (opcion) {
-					case 1:
-						mostrarArticulos();
-						break;
-					case 2:
-						System.out.println("Sesión cerrada.");
-						mostrarMenuPrincipal();
-						break;
-					case 3:
-						System.out.println("Programa finalizado.");
-						System.exit(0);
-						break;
-					default:
-						System.out.println("Opción no válida. Intente nuevamente.");
-					}
-				} catch (NumberFormatException e) {
-					System.out.println("Error: Ingrese un número válido.");
-				}
-			}
-		} else {
-			System.out.println("Hubo un problema al guardar la reserva.");
-		}
+	        int opcion = -1;
+	        while (opcion < 1 || opcion > 3) {
+	            try {
+	                System.out.print("Seleccione una opción: ");
+	                opcion = Integer.parseInt(scanner.next());
 
-		return reserva;
+	                switch (opcion) {
+	                    case 1:
+	                        mostrarArticulos();
+	                        break;
+	                    case 2:
+	                        System.out.println("Sesión cerrada.");
+	                        mostrarMenuPrincipal();
+	                        break;
+	                    case 3:
+	                        System.out.println("Programa finalizado.");
+	                        System.exit(0);
+	                        break;
+	                    default:
+	                        System.out.println("Opción no válida. Intente nuevamente.");
+	                }
+	            } catch (NumberFormatException e) {
+	                System.out.println("Error: Ingrese un número válido.");
+	            }
+	        }
+	    } else {
+	        System.out.println("Hubo un problema al guardar la reserva.");
+	    }
+
+	    return reserva;
 	}
+
 
 	// Método auxiliar para validar el formato de la hora (HH:MM)
 	private static void validarFormatoHora(String hora) {
