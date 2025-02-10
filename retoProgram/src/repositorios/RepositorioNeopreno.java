@@ -1,5 +1,6 @@
 package repositorios;
 
+import java.lang.reflect.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -164,4 +165,5 @@ public class RepositorioNeopreno {
             System.out.println("¡Neopreno agregado correctamente!");
         }
     }
+   
 }
