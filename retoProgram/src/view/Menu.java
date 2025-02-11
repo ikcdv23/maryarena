@@ -245,6 +245,7 @@ public class Menu {
             throw new IllegalArgumentException("Error: DNI inválido. Debe tener 8 números seguidos de una letra.");
         }
 
+<<<<<<< HEAD
         // Crear la reserva
         Reserva reserva = new Reserva();
         reserva.setDni(dni);
@@ -252,10 +253,22 @@ public class Menu {
         reserva.setFecha(fecha);
         reserva.setHora_inicio(horaInicio);
         reserva.setHora_fin(horaFin);
+=======
+	public static Reserva realizarReserva(int idArticulo, String dni) {
+	    Scanner scanner = new Scanner(System.in);
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 
+<<<<<<< HEAD
         // Guardar la reserva en la base de datos
         boolean guardada = RepositorioReserva.guardarReserva(reserva);
+=======
+	    // Validación del DNI (suponiendo que debe tener 8 dígitos y una letra)
+	    if (!dni.matches("\\d{8}[A-Za-z]")) {
+	        throw new IllegalArgumentException("Error: DNI inválido. Debe tener 8 números seguidos de una letra.");
+	    }
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 
+<<<<<<< HEAD
         if (guardada) {
             System.out.println("Reserva guardada con éxito.");
             System.out.println("");
@@ -263,7 +276,12 @@ public class Menu {
             System.out.println("1. Realizar otra reserva");
             System.out.println("2. Cerrar sesión");
             System.out.println("3. Finalizar programa");
+=======
+	    // Obtener DNI del usuario logueado (ejemplo)
+	    String dniUsuario = RepositorioUsuario.obtenerDniUsuarioLogueado();
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 
+<<<<<<< HEAD
             Scanner scanner = new Scanner(System.in);
             int opcion = -1;
             while (opcion < 1 || opcion > 3) {
@@ -294,7 +312,13 @@ public class Menu {
         }
         return reserva;
     }
+=======
+	    Date fecha = null;
+	    Time horaInicio = null;
+	    Time horaFin = null;
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
 
+<<<<<<< HEAD
     // Método auxiliar para validar el formato de la hora (se mantiene si se requiere en algún otro lugar)
     private static void validarFormatoHora(String hora) {
         if (!hora.matches("^([01]\\d|2[0-3]):([0-5]\\d)$")) {
@@ -302,3 +326,136 @@ public class Menu {
         }
     }
 }
+=======
+	    // Validación de fecha
+	    while (fecha == null) {
+	        try {
+	            System.out.print("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
+	            String fechaSc = scanner.next();
+
+	            LocalDate fechaReserva = LocalDate.parse(fechaSc); // Parsear la fecha
+
+	            // Comparar con la fecha actual
+	            if (fechaReserva.isBefore(LocalDate.now())) {
+	                System.out.println("Error: La fecha no puede ser anterior a la fecha actual.");
+	            } else {
+	                fecha = Date.valueOf(fechaReserva);
+	                break;
+	            }
+
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de fecha inválido. Use YYYY-MM-DD.");
+	        }
+	    }
+
+	    // Validación de hora de inicio
+	    while (horaInicio == null) {
+	        try {
+	            System.out.print("Ingrese la hora de inicio (HH:MM): ");
+	            String horaInicioSc = scanner.next();
+
+	            // Validar el formato de la hora
+	            LocalTime horaInicioReserva = LocalTime.parse(horaInicioSc);
+	            LocalTime horaActual = LocalTime.now();
+
+	            // Si la fecha es igual a la actual, verificamos la hora
+	            if (LocalDate.now().isEqual(fecha.toLocalDate())) {
+	                if (horaInicioReserva.isBefore(horaActual)) {
+	                    System.out.println("Error: La hora de inicio no puede ser anterior a la hora actual.");
+	                } else {
+	                    horaInicio = Time.valueOf(horaInicioReserva.atDate(LocalDate.now()).toLocalTime());
+	                    break;
+	                }
+	            } else {
+	                // Si la fecha es posterior a la actual, no importa la hora
+	                horaInicio = Time.valueOf(horaInicioReserva.atDate(LocalDate.now()).toLocalTime());
+	                break;
+	            }
+
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
+	        }
+	    }
+
+	    // Validación de hora de fin
+	    while (horaFin == null) {
+	        try {
+	            System.out.print("Ingrese la hora de fin (HH:MM): ");
+	            String horaFinSc = scanner.next();
+
+	            LocalTime horaFinReserva = LocalTime.parse(horaFinSc);
+
+	            // Verificar que la hora de fin sea posterior a la hora de inicio
+	            if (horaFinReserva.isBefore(horaInicio.toLocalTime())) {
+	                System.out.println("Error: La hora de fin debe ser posterior a la de inicio.");
+	            } else {
+	                horaFin = Time.valueOf(horaFinReserva.atDate(LocalDate.now()).toLocalTime());
+	                break;
+	            }
+
+	        } catch (Exception e) {
+	            System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
+	        }
+	    }
+
+	    // Crear la reserva
+	    Reserva reserva = new Reserva();
+	    reserva.setDni(dni);
+	    reserva.setIdArticulo(idArticulo);
+	    reserva.setFecha(fecha);
+	    reserva.setHora_inicio(horaInicio);
+	    reserva.setHora_fin(horaFin);
+
+	    // Guardar la reserva en la base de datos
+	    boolean guardada = RepositorioReserva.guardarReserva(reserva);
+
+	    if (guardada) {
+	        System.out.println("Reserva guardada con éxito.");
+	        System.out.println("");
+	        System.out.println("¿Qué desea hacer ahora?");
+	        System.out.println("1. Realizar otra reserva ");
+	        System.out.println("2. Cerrar sesión ");
+	        System.out.println("3. Finalizar programa ");
+
+	        int opcion = -1;
+	        while (opcion < 1 || opcion > 3) {
+	            try {
+	                System.out.print("Seleccione una opción: ");
+	                opcion = Integer.parseInt(scanner.next());
+
+	                switch (opcion) {
+	                    case 1:
+	                        mostrarArticulos();
+	                        break;
+	                    case 2:
+	                        System.out.println("Sesión cerrada.");
+	                        mostrarMenuPrincipal();
+	                        break;
+	                    case 3:
+	                        System.out.println("Programa finalizado.");
+	                        System.exit(0);
+	                        break;
+	                    default:
+	                        System.out.println("Opción no válida. Intente nuevamente.");
+	                }
+	            } catch (NumberFormatException e) {
+	                System.out.println("Error: Ingrese un número válido.");
+	            }
+	        }
+	    } else {
+	        System.out.println("Hubo un problema al guardar la reserva.");
+	    }
+
+	    return reserva;
+	}
+
+
+	// Método auxiliar para validar el formato de la hora (HH:MM)
+	private static void validarFormatoHora(String hora) {
+		if (!hora.matches("^([01]\\d|2[0-3]):([0-5]\\d)$")) {
+			throw new IllegalArgumentException("Formato de hora inválido. Use HH:MM (24 horas).");
+		}
+	}
+
+}
+>>>>>>> branch 'master' of https://github.com/ikcdv23/maryarena.git
