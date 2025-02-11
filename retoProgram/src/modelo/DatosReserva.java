@@ -5,9 +5,9 @@ import java.sql.Time;
 
 public class DatosReserva {
 	// Clase auxiliar para almacenar los datos de la reserva
-	Date fecha;
-	Time horaInicio;
-	Time horaFin;
+	public Date fecha;
+	public Time horaInicio;
+	public Time horaFin;
 	
 	
 	
