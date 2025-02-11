@@ -118,6 +118,7 @@ public class RepositorioReserva {
 
 		// Validación de hora de fin
 		while (datos.getHoraFin() == null) {
+			
 			try {
 				System.out.print("Ingrese la hora de fin (HH:MM): ");
 				String horaFinSc = scanner.next();
