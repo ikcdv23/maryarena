@@ -131,6 +131,7 @@ public class RepositorioReserva {
 				}
 			} catch (Exception e) {
 				System.out.println("Error: Formato de hora inválido. Use HH:MM (24 horas).");
+				System.out.println();
 			}
 		}
 		return datos;
